@@ -147,10 +147,14 @@ namespace PandocGui.Tests
             await File.WriteAllLinesAsync("test.md", lines);
             
             // When
-            await generator.ExecuteAsync("test.md", "test.pdf");
+            var exitCode = await generator.ExecuteAsync("test.md", "test.pdf");
             
             // Then
+            Assert.Equal(0, exitCode);
             Assert.True(File.Exists("test.pdf"));
+            
+            File.Delete("test.md");
+            File.Delete("test.pdf");
             
         }
         

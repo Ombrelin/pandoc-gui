@@ -23,7 +23,7 @@ namespace PandocGui.CliWrapper
 
 
 
-        public async Task ExecuteAsync(string sourcePath, string targetPath)
+        public async Task<int> ExecuteAsync(string sourcePath, string targetPath)
         {
             using var process = Process.Start(
                 new ProcessStartInfo()
@@ -37,7 +37,7 @@ namespace PandocGui.CliWrapper
             }
 
             await process.WaitForExitAsync();
-
+            return process.ExitCode;
         }
     }
 }

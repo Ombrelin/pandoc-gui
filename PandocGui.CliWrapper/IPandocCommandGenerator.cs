@@ -5,6 +5,6 @@ namespace PandocGui.CliWrapper
     public interface IPandocCommandGenerator
     {
         string GetCommand(string sourcePath);
-        Task ExecuteAsync(string sourcePath, string targetPath);
+        Task<int> ExecuteAsync(string sourcePath, string targetPath);
     }
 }
