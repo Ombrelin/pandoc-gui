@@ -157,6 +157,16 @@ namespace PandocGui.Tests
         }
         
         [Fact]
+        public async Task ExecuteCommand_NotPdf_Throwsf()
+        {
+            // Given
+            PandocExecutableCommandGenerator generator = new PandocCommandGenerator();
+
+            // When Then
+            Assert.Throws<ArgumentException>(() => generator.GetExecutionCommand("text.md", "test.txt"));
+        }
+        
+        [Fact]
         public void GetPandoc_FindsPandoc()
         {
             // Given

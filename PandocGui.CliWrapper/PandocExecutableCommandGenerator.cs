@@ -27,9 +27,14 @@ namespace PandocGui.CliWrapper
                 .GetEnvironmentVariable("PATH")
                 ?.Split(';')) ?? throw new InvalidOperationException("PATH not found"));
 
-            var pandocDir = pathEntries.First(entry =>
+            var pandocDir = pathEntries.FirstOrDefault(entry =>
                 Directory.Exists(entry) && Directory.GetFiles(entry).Any(file => file.Contains("pandoc"))
             );
+
+            if (pandocDir == null)
+            {
+                throw new InvalidOperationException("Pandoc not in path");
+            }
 
             return Path.Combine(pandocDir,
                 RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "pandoc.exe" : "pandoc");
