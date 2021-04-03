@@ -21,33 +21,19 @@ namespace PandocGui.CliWrapper
             return $"{GetCommand(sourcePath)} -o \"{targetPath}\"";
         }
 
-        public string GetPandoc()
-        {
-            var pathEntries = ((Environment
-                .GetEnvironmentVariable("PATH")
-                ?.Split(';')) ?? throw new InvalidOperationException("PATH not found"));
 
-            var pandocDir = pathEntries.FirstOrDefault(entry =>
-                Directory.Exists(entry) && Directory.GetFiles(entry).Any(file => file.Contains("pandoc"))
-            );
-
-            if (pandocDir == null)
-            {
-                throw new InvalidOperationException("Pandoc not in path");
-            }
-
-            return Path.Combine(pandocDir,
-                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "pandoc.exe" : "pandoc");
-        }
 
         public async Task ExecuteAsync(string sourcePath, string targetPath)
         {
-            var pandoc = GetPandoc();
-            var args = GetExecutionCommand(sourcePath, targetPath);
-            var process = Process.Start(pandoc, args);
+            using var process = Process.Start(
+                new ProcessStartInfo()
+                {
+                    FileName = "pandoc",
+                    Arguments = GetExecutionCommand(sourcePath, targetPath)
+                });
             if (process == null)
             {
-                throw new ArgumentException("Invalid Command");
+                throw new ArgumentException("Invalid Command or pandoc not found");
             }
 
             await process.WaitForExitAsync();

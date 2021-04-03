@@ -152,8 +152,6 @@ namespace PandocGui.Tests
             // Then
             Assert.True(File.Exists("test.pdf"));
             
-            File.Delete("test.md");
-            File.Delete("test.pd");
         }
         
         [Fact]
@@ -164,27 +162,6 @@ namespace PandocGui.Tests
 
             // When Then
             Assert.Throws<ArgumentException>(() => generator.GetExecutionCommand("text.md", "test.txt"));
-        }
-        
-        [Fact]
-        public void GetPandoc_FindsPandoc()
-        {
-            // Given
-            PandocExecutableCommandGenerator generator = new PandocCommandGenerator();
-            
-            // When
-            string pandoc = generator.GetPandoc();
-            
-            // Then
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                Assert.Contains("pandoc.exe", pandoc);
-            }
-            else
-            {
-                Assert.Contains("pandoc", pandoc);
-            }
-            
         }
     }
 }
