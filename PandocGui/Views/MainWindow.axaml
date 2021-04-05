@@ -42,6 +42,29 @@
                         </Button>
                     </StackPanel>
                 </StackPanel>
+                <StackPanel HorizontalAlignment="Center">
+                    <Grid>
+                        <TextBlock VerticalAlignment="Center">Code Highlight Theme :</TextBlock>
+                        <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right" x:Name="highlightToggle"></ToggleSwitch>
+                    </Grid>
+                    
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="16">
+                        <TextBox Width="200" x:Name="highlightFileInput" />
+                        <Button x:Name="highlightFileButton">
+                            <TextBlock Text="Search File" />
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+                
+                <StackPanel HorizontalAlignment="Center">
+                    <Grid>
+                        <TextBlock VerticalAlignment="Center">Headers Numbering :</TextBlock>
+                        <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right" x:Name="headersNumberingToggle"></ToggleSwitch>
+                    </Grid>
+                </StackPanel>
     
             </StackPanel>
 

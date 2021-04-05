@@ -18,15 +18,23 @@ namespace PandocGui.ViewModels
         public ReactiveCommand<Unit, Task> SearchSourceFileCommand { get; }
         public ReactiveCommand<Unit, Task> ExportCommand { get; }
         public ReactiveCommand<Unit,Task> SearchTargetFileCommand { get; }
+        public ReactiveCommand<Unit,Task> SearchHighlightThemeSourceCommand { get; }
 
         [Reactive]
         public string SourcePath { get; set; }
+        
         [Reactive]
         public string TargetPath { get; set; }
 
         [Reactive] 
         public bool Loading { get; set; } = false;
 
+        [Reactive] 
+        public bool CustomHighlightThemeEnabled { get; set; } = false;
+
+        [Reactive] 
+        public string CustomHighlightThemeSource { get; set; } = "";
+        
         private readonly IFileDialogService fileDialogService;
         private readonly IPandocCli pandoc;
         
@@ -39,8 +47,14 @@ namespace PandocGui.ViewModels
             SearchSourceFileCommand = ReactiveCommand.Create(SearchInputFile);
             SearchTargetFileCommand = ReactiveCommand.Create(SearchOutputFile);
             ExportCommand = ReactiveCommand.Create(Export);
+            SearchHighlightThemeSourceCommand = ReactiveCommand.Create(SearchHighlightThemeSource);
         }
-        
+
+        private async Task SearchHighlightThemeSource()
+        {
+            CustomHighlightThemeSource = await fileDialogService.OpenFileAsync();
+        }
+
         private async Task Export()
         {
             Loading = true;
@@ -48,7 +62,8 @@ namespace PandocGui.ViewModels
             {
                 SourcePath = SourcePath,
                 TargetPath = TargetPath,
-                HighlightTheme = false,
+                HighlightTheme = CustomHighlightThemeEnabled,
+                HighlightThemeSource = CustomHighlightThemeSource,
                 NumberedHeader = false,
                 CustomFont = false,
                 CustomMargin = false,

@@ -19,6 +19,11 @@ namespace PandocGui.Views
         public Button ExportButton => this.FindControl<Button>("exportButton");
         public ProgressRing Loader => this.FindControl<ProgressRing>("loader");
 
+        public ToggleSwitch HighlightEnabledToggle => this.FindControl<ToggleSwitch>("highlightToggle");
+        public ToggleSwitch HeaderNumberingEnabledToggle => this.FindControl<ToggleSwitch>("headersNumberingToggle");
+        public TextBox HighlightFileInput => this.FindControl<TextBox>("highlightFileInput");
+        public Button HighlightFileButton => this.FindControl<Button>("highlightFileButton");
+
         public MainWindow()
         {
             InitializeComponent();
@@ -57,12 +62,38 @@ namespace PandocGui.Views
                     v => v.Loader.IsVisible
                 ).DisposeWith(disposable);
                 
-                this.Bind(ViewModel,
+                this.OneWayBind(ViewModel,
                     vm => vm.Loading,
                     v => v.ExportButton.IsVisible,
-                    NotConverter,NotConverter
+                    NotConverter
+                ).DisposeWith(disposable);
+                
+                this.Bind(ViewModel,
+                    vm => vm.CustomHighlightThemeEnabled,
+                    v => v.HighlightEnabledToggle.IsChecked
+                ).DisposeWith(disposable);
+                
+                this.BindCommand(ViewModel,
+                    vm => vm.SearchHighlightThemeSourceCommand,
+                    v => v.HighlightFileButton
+                ).DisposeWith(disposable);
+                
+                this.Bind(ViewModel,
+                    vm => vm.CustomHighlightThemeSource,
+                    v => v.HighlightFileInput.Text
+                ).DisposeWith(disposable);
+                
+                this.OneWayBind(ViewModel,
+                    vm => vm.CustomHighlightThemeEnabled,
+                    v => v.HighlightFileInput.IsEnabled
+                ).DisposeWith(disposable);
+                this.OneWayBind(ViewModel,
+                    vm => vm.CustomHighlightThemeEnabled,
+                    v => v.HighlightFileButton.IsEnabled
                 ).DisposeWith(disposable);
             });
+            
+            
         }
 
         private bool NotConverter(bool val) => !val;
