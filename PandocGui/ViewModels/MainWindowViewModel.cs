@@ -21,8 +21,11 @@ namespace PandocGui.ViewModels
 
         [Reactive]
         public string SourcePath { get; set; }
+        [Reactive]
         public string TargetPath { get; set; }
-        
+
+        [Reactive] 
+        public bool Loading { get; set; } = false;
 
         private readonly IFileDialogService fileDialogService;
         private readonly IPandocCli pandoc;
@@ -40,6 +43,7 @@ namespace PandocGui.ViewModels
         
         private async Task Export()
         {
+            Loading = true;
             await this.pandoc.ExportPdfAsync(new PandocParameters()
             {
                 SourcePath = SourcePath,
@@ -51,6 +55,7 @@ namespace PandocGui.ViewModels
                 CustomPdfEngine = false,
                 TableOfContents = false
             });
+            Loading = false;
         }
 
         private async Task SearchInputFile()

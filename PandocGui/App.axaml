@@ -7,6 +7,7 @@
     </Application.DataTemplates>
 
     <Application.Styles>
+        <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml"/>
         <FluentTheme Mode="Dark"/>
     </Application.Styles>
 </Application>
