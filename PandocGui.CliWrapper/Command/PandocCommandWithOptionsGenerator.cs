@@ -1,4 +1,4 @@
-﻿namespace PandocGui.CliWrapper
+﻿namespace PandocGui.CliWrapper.Command
 {
     public abstract class PandocCommandWithOptionsGenerator : PandocExecutableCommandGenerator
     {

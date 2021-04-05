@@ -1,9 +1,9 @@
-﻿namespace PandocGui.CliWrapper
+﻿namespace PandocGui.CliWrapper.Command
 {
     public class FontPandocCommandGenerator : KeyValuePandocCommandOptionsGenerator
     {
         public FontPandocCommandGenerator(IPandocCommandGenerator commandGenerator, string value) 
-            : base(commandGenerator, "mainfont", value)
+            : base(commandGenerator, "mainfont", $"\"{value}\"")
         {
         }
     }

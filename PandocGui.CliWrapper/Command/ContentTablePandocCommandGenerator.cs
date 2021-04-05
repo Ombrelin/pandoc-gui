@@ -1,4 +1,4 @@
-﻿namespace PandocGui.CliWrapper
+﻿namespace PandocGui.CliWrapper.Command
 {
     public class ContentTablePandocCommandGenerator : PandocCommandWithOptionsGenerator
     {

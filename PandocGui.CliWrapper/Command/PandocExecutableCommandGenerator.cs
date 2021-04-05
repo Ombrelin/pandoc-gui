@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace PandocGui.CliWrapper
+namespace PandocGui.CliWrapper.Command
 {
     public abstract class PandocExecutableCommandGenerator : IPandocCommandGenerator
     {

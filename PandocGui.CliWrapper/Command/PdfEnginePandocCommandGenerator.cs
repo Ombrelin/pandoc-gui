@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PandocGui.CliWrapper
+namespace PandocGui.CliWrapper.Command
 {
     public class PdfEnginePandocCommandGenerator : PandocCommandWithOptionsGenerator
     {

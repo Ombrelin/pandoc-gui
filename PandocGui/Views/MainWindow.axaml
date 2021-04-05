@@ -9,9 +9,43 @@
         Title="PandocGui">
 
     <Design.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
+    <Border Padding="16">
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Spacing="16">
+                <TextBlock HorizontalAlignment="Center">Input file :</TextBlock>
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="16">
+                    
+                    <TextBox Width="200" x:Name="searchSourceFileInput"/>
+                    <Button x:Name="searchSourceFileButton">
+                        <TextBlock Text="Search File" />
+                    </Button>
+                </StackPanel>
+                
+                <TextBlock HorizontalAlignment="Center">Output file :</TextBlock>
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="16">
+                    <TextBox Width="200" x:Name="searchTargetFileInput"/>
+                    <Button x:Name="searchTargetFileButton">
+                        <TextBlock Text="Search File" />
+                    </Button>
+                </StackPanel>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
+            </StackPanel>
+            <Button 
+                x:Name="exportButton"
+                VerticalAlignment="Bottom"
+                Background="#0066CC"
+                DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+                <TextBlock TextAlignment="Center" Width="100" Text="Export" />
+            </Button>
+        </DockPanel>
+    </Border>
 </Window>
