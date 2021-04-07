@@ -14,7 +14,7 @@ Pandoc GUI runs on .NET 5.
 
 ## Screenshots
 
-WIP
+![Main UI](./screenshots/main-ui.png)
 
 ## Install Release
 
