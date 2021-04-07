@@ -16,11 +16,11 @@ Pandoc GUI runs on .NET 5.
 
 WIP
 
-## Installing Release
+## Install Release
 
 WIP
 
-## Installing Dev
+## Run Dev
 
 Make sure you gave the .NET 5 SDK installed.
 
