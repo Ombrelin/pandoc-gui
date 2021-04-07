@@ -3,11 +3,11 @@
              xmlns:local="using:PandocGui"
              x:Class="PandocGui.App">
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <local:ViewLocator />
     </Application.DataTemplates>
 
     <Application.Styles>
-        <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml"/>
-        <FluentTheme Mode="Dark"/>
+        <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml" />
+        <FluentTheme Mode="Dark" />
     </Application.Styles>
 </Application>

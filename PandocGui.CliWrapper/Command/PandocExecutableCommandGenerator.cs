@@ -22,7 +22,6 @@ namespace PandocGui.CliWrapper.Command
         }
 
 
-
         public async Task<int> ExecuteAsync(string sourcePath, string targetPath)
         {
             using var process = Process.Start(

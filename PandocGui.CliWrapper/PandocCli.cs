@@ -11,6 +11,7 @@ namespace PandocGui.CliWrapper
             var generator = BuildGenerator(parameters);
 
             int result = await generator.ExecuteAsync(parameters.SourcePath, parameters.TargetPath);
+            Console.WriteLine($"Pandoc CLI return code : {result}");
             if (result != 0)
             {
                 throw new InvalidOperationException($"Pandoc error : {result}");

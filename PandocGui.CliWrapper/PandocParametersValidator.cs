@@ -8,7 +8,7 @@ namespace PandocGui.CliWrapper
         {
             RuleFor(x => x.SourcePath).NotEmpty();
             RuleFor(x => x.TargetPath).NotEmpty();
-            
+
             RuleFor(x => x.HighlightThemeSource).NotEmpty().When(x => x.HighlightTheme);
             RuleFor(x => x.CustomFontName).NotEmpty().When(x => x.CustomFont);
             RuleFor(x => x.CustomMarginValue).NotEmpty().When(x => x.CustomMargin);

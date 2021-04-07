@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:avaloniaProgressRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
         mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="600"
-        Width="350" Height="400"
+        Width="350" Height="700"
         MinWidth="350"
         x:Class="PandocGui.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -17,7 +17,7 @@
     <Border Padding="16">
         <DockPanel>
             <StackPanel DockPanel.Dock="Top" Spacing="16">
-                <StackPanel HorizontalAlignment="Center">
+                <StackPanel Spacing="8" HorizontalAlignment="Center">
                     <TextBlock>Input file :</TextBlock>
                     <StackPanel
                         HorizontalAlignment="Center"
@@ -30,7 +30,7 @@
                         </Button>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel HorizontalAlignment="Center">
+                <StackPanel Spacing="8" HorizontalAlignment="Center">
                     <TextBlock>Output file :</TextBlock>
                     <StackPanel
                         HorizontalAlignment="Center"
@@ -45,9 +45,9 @@
                 <StackPanel HorizontalAlignment="Center">
                     <Grid>
                         <TextBlock VerticalAlignment="Center">Code Highlight Theme :</TextBlock>
-                        <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right" x:Name="highlightToggle"></ToggleSwitch>
+                        <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right" x:Name="highlightToggle" />
                     </Grid>
-                    
+
                     <StackPanel
                         HorizontalAlignment="Center"
                         Orientation="Horizontal"
@@ -58,25 +58,70 @@
                         </Button>
                     </StackPanel>
                 </StackPanel>
-                
-                <StackPanel HorizontalAlignment="Center">
-                    <Grid>
-                        <TextBlock VerticalAlignment="Center">Headers Numbering :</TextBlock>
-                        <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right" x:Name="headersNumberingToggle"></ToggleSwitch>
+
+                <Grid Width="305">
+                    <TextBlock VerticalAlignment="Center">Headers Numbering :</TextBlock>
+                    <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right"
+                                  x:Name="headersNumberingToggle" />
+                </Grid>
+
+                <Grid Width="305">
+                    <TextBlock VerticalAlignment="Center">Custom Font :</TextBlock>
+                    <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right" x:Name="customFontToggle" />
+                </Grid>
+                <Grid Width="305">
+                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center">Custom Font Name :</TextBlock>
+                    <TextBox Width="150" HorizontalAlignment="Right" x:Name="fontNameInput" />
+                </Grid>
+
+
+                <StackPanel Spacing="16">
+                    <Grid Width="305">
+                        <TextBlock VerticalAlignment="Center">Custom Margin :</TextBlock>
+                        <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right"
+                                      x:Name="customMarginToggle" />
                     </Grid>
+                    <StackPanel HorizontalAlignment="Center" Spacing="16" Orientation="Horizontal">
+                        <NumericUpDown Width="275" VerticalAlignment="Center" Value="1.3" Increment="0.1" Minimum="0"
+                                       Maximum="10"
+                                       x:Name="customMarginInput" />
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right"> cm</TextBlock>
+                    </StackPanel>
                 </StackPanel>
-    
+                <StackPanel Spacing="16">
+                    <Grid Width="305">
+                        <TextBlock VerticalAlignment="Center">Custom PDF Engine :</TextBlock>
+                        <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right"
+                                      x:Name="pdfEngineToggle" />
+                    </Grid>
+                    <ComboBox HorizontalAlignment="Center" Width="305" x:Name="pdfEngineCombobox">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+                <Grid Width="305">
+                    <TextBlock VerticalAlignment="Center">Table of Content :</TextBlock>
+                    <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right"
+                                  x:Name="contentTableToggle" />
+                </Grid>
             </StackPanel>
 
-
-            <Button
-                x:Name="exportButton"
-                HorizontalContentAlignment="Center"
-                VerticalAlignment="Bottom"
-                Background="#0066CC"
-                DockPanel.Dock="Bottom" HorizontalAlignment="Center">
-                <TextBlock TextAlignment="Center" Width="100" Text="Export" />
-            </Button>
+            <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Spacing="16">
+                <TextBlock
+                    x:Name="resultText"
+                    HorizontalAlignment="Center"
+                   />
+                <Button
+                    x:Name="exportButton"
+                    HorizontalContentAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Background="#0066CC">
+                    <TextBlock TextAlignment="Center" Width="100" Text="Export" />
+                </Button>
+            </StackPanel>
             <avaloniaProgressRing:ProgressRing
                 x:Name="loader"
                 DockPanel.Dock="Bottom"
@@ -85,7 +130,7 @@
                 IsActive="True"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
-                Foreground="#0066CC"/>
+                Foreground="#0066CC" />
         </DockPanel>
     </Border>
 </Window>

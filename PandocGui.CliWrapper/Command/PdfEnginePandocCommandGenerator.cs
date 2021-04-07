@@ -7,7 +7,7 @@ namespace PandocGui.CliWrapper.Command
     {
         private string engine;
 
-        private static HashSet<string> supportedEngines = new HashSet<string>()
+        public static HashSet<string> supportedEngines = new HashSet<string>()
         {
             "pdflatex", "lualatex", "xelatex", "latexmk", "tectonic", "wkhtmltopdf", "weasyprint", "prince", "context",
             "pdfroff"
@@ -24,6 +24,7 @@ namespace PandocGui.CliWrapper.Command
             }
         }
 
-        public override string GetCommand(string sourcePath) => $"{CommandGenerator.GetCommand(sourcePath)} --pdf-engine={this.engine}";
+        public override string GetCommand(string sourcePath) =>
+            $"{CommandGenerator.GetCommand(sourcePath)} --pdf-engine={this.engine}";
     }
 }

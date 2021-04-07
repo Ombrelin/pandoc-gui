@@ -3,8 +3,9 @@
     public class HighlightPandocCommandOptionsGenerator : PandocCommandWithOptionsGenerator
     {
         private readonly string stylePath;
-        
-        public HighlightPandocCommandOptionsGenerator(IPandocCommandGenerator commandGenerator, string stylePath) : base(commandGenerator)
+
+        public HighlightPandocCommandOptionsGenerator(IPandocCommandGenerator commandGenerator, string stylePath) :
+            base(commandGenerator)
         {
             this.stylePath = stylePath;
         }

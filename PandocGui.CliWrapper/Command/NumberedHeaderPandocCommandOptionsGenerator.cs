@@ -1,8 +1,9 @@
 ﻿namespace PandocGui.CliWrapper.Command
 {
-    public class NumberedHeaderPandocCommandOptionsGenerator: PandocCommandWithOptionsGenerator
+    public class NumberedHeaderPandocCommandOptionsGenerator : PandocCommandWithOptionsGenerator
     {
-        public NumberedHeaderPandocCommandOptionsGenerator(IPandocCommandGenerator commandGenerator) : base(commandGenerator)
+        public NumberedHeaderPandocCommandOptionsGenerator(IPandocCommandGenerator commandGenerator) : base(
+            commandGenerator)
         {
         }
 

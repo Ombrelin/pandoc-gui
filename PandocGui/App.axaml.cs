@@ -20,7 +20,8 @@ namespace PandocGui
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = new MainWindow();
-                desktop.MainWindow.DataContext = new MainWindowViewModel(new FileDialogService(desktop.MainWindow), new PandocCli());
+                desktop.MainWindow.DataContext =
+                    new MainWindowViewModel(new FileDialogService(desktop.MainWindow), new PandocCli());
             }
 
             base.OnFrameworkInitializationCompleted();
