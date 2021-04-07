@@ -7,16 +7,28 @@ This software aims to provide a clean and modern GUI to generate PDF documents f
 - Font
 - Link color
 - Margin
-- PDF ENgine
+- PDF Engine
 - Table of contents
+
+Pandoc GUI runs on .NET 5.
 
 ## Screenshots
 
 WIP
 
-## Installing
+## Installing Release
 
 WIP
+
+## Installing Dev
+
+Make sure you gave the .NET 5 SDK installed.
+
+```bash
+git clone https://github.com/Ombrelin/pandoc-gui
+cd pandoc-gui/PandocGui
+dotnet run
+```
 
 ## Special Thanks
 
