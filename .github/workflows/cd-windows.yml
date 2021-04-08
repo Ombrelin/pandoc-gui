@@ -1,0 +1,34 @@
+name: CD Windows
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Chocolatey
+      run: Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    - name: Install Pandoc
+      run: choco install pandoc -y
+    - name: Install InnoSetup
+      run: choco install InnoSetup -y
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+    - name: Build Executable
+      run: cd PandocGui && dotnet publish --output "c:/temp/pandocgui" --runtime win-x64 --configuration Release -p:PublishSingleFile=true --self-contained true
+    - 
