@@ -14,7 +14,8 @@ namespace PandocGui.CliWrapper
             Console.WriteLine($"Pandoc CLI return code : {result}");
             if (result != 0)
             {
-                throw new InvalidOperationException($"Pandoc error : {result}");
+                var error = (PandocErrorCode) result;
+                throw new InvalidOperationException($"{error.ToString()}");
             }
         }
 
@@ -59,6 +60,11 @@ namespace PandocGui.CliWrapper
             if (parameters.TableOfContents)
             {
                 generator = new ContentTablePandocCommandGenerator(generator);
+            }
+
+            if (parameters.LogToFile)
+            {
+                generator = new LogsFileCommandGenerator(generator, parameters.LogFilePath);
             }
 
             return generator;

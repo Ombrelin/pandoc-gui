@@ -37,6 +37,7 @@ namespace PandocGui.Views
         private ToggleSwitch PdfEngineToggle => this.FindControl<ToggleSwitch>("pdfEngineToggle");
         private ToggleSwitch ContentTableToggle => this.FindControl<ToggleSwitch>("contentTableToggle");
         private TextBlock ResultText => this.FindControl<TextBlock>("resultText");
+        private MenuItem OpenLogFolderMenu => this.FindControl<MenuItem>("openLogFolderMenu");
         
         
         public MainWindow()
@@ -164,6 +165,11 @@ namespace PandocGui.Views
                     vm => vm.IsError,
                     v => v.ResultText.Foreground,
                     ErrorStatusToColor
+                ).DisposeWith(disposable);
+                
+                this.BindCommand(ViewModel,
+                    vm => vm.OpenLogFolderCommand,
+                    v => v.OpenLogFolderMenu
                 ).DisposeWith(disposable);
             });
         }

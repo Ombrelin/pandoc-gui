@@ -16,5 +16,7 @@ namespace PandocGui.CliWrapper
         public bool CustomPdfEngine { get; set; } = false;
         public string CustomPdfEngineValue { get; set; }
         public bool TableOfContents { get; set; } = false;
+        public bool LogToFile { get; set; } = false;
+        public string LogFilePath { get; set; }
     }
 }

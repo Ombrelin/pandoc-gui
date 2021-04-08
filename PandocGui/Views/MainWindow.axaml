@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:avaloniaProgressRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
         mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="600"
-        Width="350" Height="700"
+        Width="350" Height="750"
         MinWidth="350"
         x:Class="PandocGui.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -14,123 +14,136 @@
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>
-    <Border Padding="16">
-        <DockPanel>
-            <StackPanel DockPanel.Dock="Top" Spacing="16">
-                <StackPanel Spacing="8" HorizontalAlignment="Center">
-                    <TextBlock>Input file :</TextBlock>
-                    <StackPanel
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal"
-                        Spacing="16">
 
-                        <TextBox Width="200" x:Name="searchSourceFileInput" />
-                        <Button x:Name="searchSourceFileButton">
-                            <TextBlock Text="Search File" />
-                        </Button>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem x:Name="openLogFolderMenu" Header="Open logs folder" />
+            </MenuItem>
+        </Menu>
+        <Border DockPanel.Dock="Bottom" Padding="16">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" Spacing="16">
+                    <StackPanel Spacing="8" HorizontalAlignment="Center">
+                        <TextBlock>Input file :</TextBlock>
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal"
+                            Spacing="16">
+
+                            <TextBox Width="200" x:Name="searchSourceFileInput" />
+                            <Button x:Name="searchSourceFileButton">
+                                <TextBlock Text="Search File" />
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
-                <StackPanel Spacing="8" HorizontalAlignment="Center">
-                    <TextBlock>Output file :</TextBlock>
-                    <StackPanel
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal"
-                        Spacing="16">
-                        <TextBox Width="200" x:Name="searchTargetFileInput" />
-                        <Button x:Name="searchTargetFileButton">
-                            <TextBlock Text="Search File" />
-                        </Button>
+                    <StackPanel Spacing="8" HorizontalAlignment="Center">
+                        <TextBlock>Output file :</TextBlock>
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal"
+                            Spacing="16">
+                            <TextBox Width="200" x:Name="searchTargetFileInput" />
+                            <Button x:Name="searchTargetFileButton">
+                                <TextBlock Text="Search File" />
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
-                <StackPanel HorizontalAlignment="Center">
-                    <Grid>
-                        <TextBlock VerticalAlignment="Center">Code Highlight Theme :</TextBlock>
-                        <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right" x:Name="highlightToggle" />
-                    </Grid>
+                    <StackPanel HorizontalAlignment="Center">
+                        <Grid>
+                            <TextBlock VerticalAlignment="Center">Code Highlight Theme :</TextBlock>
+                            <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right"
+                                          x:Name="highlightToggle" />
+                        </Grid>
 
-                    <StackPanel
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal"
-                        Spacing="16">
-                        <TextBox Width="200" x:Name="highlightFileInput" />
-                        <Button x:Name="highlightFileButton">
-                            <TextBlock Text="Search File" />
-                        </Button>
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal"
+                            Spacing="16">
+                            <TextBox Width="200" x:Name="highlightFileInput" />
+                            <Button x:Name="highlightFileButton">
+                                <TextBlock Text="Search File" />
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
 
-                <Grid Width="305">
-                    <TextBlock VerticalAlignment="Center">Headers Numbering :</TextBlock>
-                    <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right"
-                                  x:Name="headersNumberingToggle" />
-                </Grid>
-
-                <Grid Width="305">
-                    <TextBlock VerticalAlignment="Center">Custom Font :</TextBlock>
-                    <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right" x:Name="customFontToggle" />
-                </Grid>
-                <Grid Width="305">
-                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center">Custom Font Name :</TextBlock>
-                    <TextBox Width="150" HorizontalAlignment="Right" x:Name="fontNameInput" />
-                </Grid>
-
-
-                <StackPanel Spacing="16">
                     <Grid Width="305">
-                        <TextBlock VerticalAlignment="Center">Custom Margin :</TextBlock>
+                        <TextBlock VerticalAlignment="Center">Headers Numbering :</TextBlock>
                         <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right"
-                                      x:Name="customMarginToggle" />
+                                      x:Name="headersNumberingToggle" />
                     </Grid>
-                    <StackPanel HorizontalAlignment="Center" Spacing="16" Orientation="Horizontal">
-                        <NumericUpDown Width="275" VerticalAlignment="Center" Value="1.3" Increment="0.1" Minimum="0"
-                                       Maximum="10"
-                                       x:Name="customMarginInput" />
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right"> cm</TextBlock>
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel Spacing="16">
-                    <Grid Width="305">
-                        <TextBlock VerticalAlignment="Center">Custom PDF Engine :</TextBlock>
-                        <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right"
-                                      x:Name="pdfEngineToggle" />
-                    </Grid>
-                    <ComboBox HorizontalAlignment="Center" Width="305" x:Name="pdfEngineCombobox">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </StackPanel>
-                <Grid Width="305">
-                    <TextBlock VerticalAlignment="Center">Table of Content :</TextBlock>
-                    <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right"
-                                  x:Name="contentTableToggle" />
-                </Grid>
-            </StackPanel>
 
-            <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Spacing="16">
-                <TextBlock
-                    x:Name="resultText"
+                    <Grid Width="305">
+                        <TextBlock VerticalAlignment="Center">Custom Font :</TextBlock>
+                        <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right" x:Name="customFontToggle" />
+                    </Grid>
+                    <Grid Width="305">
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center">Custom Font Name :</TextBlock>
+                        <TextBox Width="150" HorizontalAlignment="Right" x:Name="fontNameInput" />
+                    </Grid>
+
+
+                    <StackPanel Spacing="16">
+                        <Grid Width="305">
+                            <TextBlock VerticalAlignment="Center">Custom Margin :</TextBlock>
+                            <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right"
+                                          x:Name="customMarginToggle" />
+                        </Grid>
+                        <StackPanel HorizontalAlignment="Center" Spacing="16" Orientation="Horizontal">
+                            <NumericUpDown Width="275" VerticalAlignment="Center" Value="1.3" Increment="0.1"
+                                           Minimum="0"
+                                           Maximum="10"
+                                           x:Name="customMarginInput" />
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right"> cm</TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Spacing="16">
+                        <Grid Width="305">
+                            <TextBlock VerticalAlignment="Center">Custom PDF Engine :</TextBlock>
+                            <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right"
+                                          x:Name="pdfEngineToggle" />
+                        </Grid>
+                        <ComboBox HorizontalAlignment="Center" Width="305" x:Name="pdfEngineCombobox">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <Grid Width="305">
+                        <TextBlock VerticalAlignment="Center">Table of Content :</TextBlock>
+                        <ToggleSwitch VerticalAlignment="Center" HorizontalAlignment="Right"
+                                      x:Name="contentTableToggle" />
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Spacing="16">
+                    <TextBlock
+
+                        x:Name="resultText"
+                        HorizontalAlignment="Center" />
+                    <Button
+                        x:Name="exportButton"
+                        HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        Background="#0066CC">
+                        <TextBlock TextAlignment="Center" Width="100" Text="Export" />
+                    </Button>
+                </StackPanel>
+                <avaloniaProgressRing:ProgressRing
+                    x:Name="loader"
+                    DockPanel.Dock="Bottom"
+                    Width="40"
+                    Height="40"
+                    IsActive="True"
                     HorizontalAlignment="Center"
-                   />
-                <Button
-                    x:Name="exportButton"
-                    HorizontalContentAlignment="Center"
                     VerticalAlignment="Bottom"
-                    Background="#0066CC">
-                    <TextBlock TextAlignment="Center" Width="100" Text="Export" />
-                </Button>
-            </StackPanel>
-            <avaloniaProgressRing:ProgressRing
-                x:Name="loader"
-                DockPanel.Dock="Bottom"
-                Width="40"
-                Height="40"
-                IsActive="True"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                Foreground="#0066CC" />
-        </DockPanel>
-    </Border>
+                    Foreground="#0066CC" />
+            </DockPanel>
+        </Border>
+    </DockPanel>
+
 </Window>

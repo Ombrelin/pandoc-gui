@@ -21,7 +21,7 @@ namespace PandocGui
             {
                 desktop.MainWindow = new MainWindow();
                 desktop.MainWindow.DataContext =
-                    new MainWindowViewModel(new FileDialogService(desktop.MainWindow), new PandocCli());
+                    new MainWindowViewModel(new FileDialogService(desktop.MainWindow), new PandocCli(), new DataDirectoryService());
             }
 
             base.OnFrameworkInitializationCompleted();

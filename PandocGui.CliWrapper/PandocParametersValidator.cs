@@ -13,6 +13,7 @@ namespace PandocGui.CliWrapper
             RuleFor(x => x.CustomFontName).NotEmpty().When(x => x.CustomFont);
             RuleFor(x => x.CustomMarginValue).NotEmpty().When(x => x.CustomMargin);
             RuleFor(x => x.CustomPdfEngineValue).NotEmpty().When(x => x.CustomPdfEngine);
+            RuleFor(x => x.LogFilePath).NotEmpty().When(x => x.LogToFile);
         }
     }
 }

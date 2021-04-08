@@ -128,6 +128,19 @@ namespace PandocGui.Tests
             // Then
             Assert.Equal("-f markdown \"test.md\" --pdf-engine=xelatex", command);
         }
+        
+        [Fact]
+        public void LogGenerator_ReturnsLogCommand()
+        {
+            // Given
+            var generator = new LogsFileCommandGenerator(new PandocCommandGenerator(), "logs.txt");
+
+            // When
+            var command = generator.GetCommand("test.md");
+
+            // Then
+            Assert.Equal("-f markdown \"test.md\" --log=\"logs.txt\"", command);
+        }
 
         [Fact]
         public void EngineGenerator_NonExistingEngine_Throws()
@@ -187,7 +200,9 @@ namespace PandocGui.Tests
                 CustomMarginValue = 1.3m,
                 CustomPdfEngine = true,
                 CustomPdfEngineValue = "xelatex",
-                TableOfContents = true
+                TableOfContents = true,
+                LogToFile = true,
+                LogFilePath = "logs.txt"
             };
 
             var cli = new PandocCli();
@@ -197,7 +212,7 @@ namespace PandocGui.Tests
 
             // Then
             Assert.Equal(
-                "-f markdown \"test.md\" --highlight-style \"style.theme\" -N -V mainfont:\"Segoe UI\" -V geometry:a4paper -V geometry:margin=1.3cm --pdf-engine=xelatex --toc",
+                "-f markdown \"test.md\" --highlight-style \"style.theme\" -N -V mainfont:\"Segoe UI\" -V geometry:a4paper -V geometry:margin=1.3cm --pdf-engine=xelatex --toc --log=\"logs.txt\"",
                 generator.GetCommand("test.md"));
         }
     }

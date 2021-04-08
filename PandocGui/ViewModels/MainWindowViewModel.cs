@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Text;
@@ -22,6 +23,7 @@ namespace PandocGui.ViewModels
         public ReactiveCommand<Unit, Task> ExportCommand { get; }
         public ReactiveCommand<Unit, Task> SearchTargetFileCommand { get; }
         public ReactiveCommand<Unit, Task> SearchHighlightThemeSourceCommand { get; }
+        public ReactiveCommand<Unit, Unit> OpenLogFolderCommand { get; }
 
         [Reactive] public string SourcePath { get; set; }
 
@@ -47,19 +49,23 @@ namespace PandocGui.ViewModels
 
         private readonly IFileDialogService fileDialogService;
         private readonly IPandocCli pandoc;
-
-        public MainWindowViewModel(IFileDialogService fileDialogService, IPandocCli pandoc)
+        private readonly IDataDirectoryService dataDirectoryService;
+  
+        public MainWindowViewModel(IFileDialogService fileDialogService, IPandocCli pandoc, IDataDirectoryService dataDirectoryService)
         {
+            dataDirectoryService.EnsureCreated();
             SourcePath = "";
             TargetPath = "";
             this.fileDialogService = fileDialogService;
             this.pandoc = pandoc;
+            this.dataDirectoryService = dataDirectoryService;
             SearchSourceFileCommand = ReactiveCommand.Create(SearchInputFile);
             SearchTargetFileCommand = ReactiveCommand.Create(SearchOutputFile);
             ExportCommand = ReactiveCommand.Create(Export);
             SearchHighlightThemeSourceCommand = ReactiveCommand.Create(SearchHighlightThemeSource);
+            OpenLogFolderCommand = ReactiveCommand.Create(dataDirectoryService.OpenLogFolder);
         }
-
+        
         private async Task SearchHighlightThemeSource()
         {
             CustomHighlightThemeSource = await fileDialogService.OpenFileAsync();
@@ -84,7 +90,9 @@ namespace PandocGui.ViewModels
                     CustomMarginValue = CustomMarginValue,
                     CustomPdfEngine = CustomPdfEngineEnabled,
                     CustomPdfEngineValue = CustomPdfEngineValue,
-                    TableOfContents = TableOfContentEnabled
+                    TableOfContents = TableOfContentEnabled,
+                    LogToFile = true,
+                    LogFilePath = @$"{dataDirectoryService.GetLogsPath()}\pandoc-logs-{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.json"
                 });
                 this.IsError = false;
                 this.Result = "Success";
