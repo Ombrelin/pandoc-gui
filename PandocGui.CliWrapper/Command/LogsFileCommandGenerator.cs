@@ -9,6 +9,6 @@
             this.logFilePath = logFilePath;
         }
 
-        public override string GetCommand(string sourcePath) => $"{CommandGenerator.GetCommand(sourcePath)} --log={logFilePath}";
+        public override string GetCommand(string sourcePath) => $"{CommandGenerator.GetCommand(sourcePath)} --log=\"{logFilePath}\"";
     }
 }
