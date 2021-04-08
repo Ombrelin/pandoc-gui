@@ -34,7 +34,7 @@ jobs:
     - name: Compile Installer
       run: iscc "installer.iss"
     - name: Save Installer as Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: pandoc-gui-setup
-          path: C:\temp\pandocgui\pandoc-gui-setup.exe
+      uses: actions/upload-artifact@v2
+      with:
+        name: pandoc-gui-setup
+        path: C:\temp\pandocgui\pandoc-gui-setup.exe
