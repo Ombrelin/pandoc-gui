@@ -15,12 +15,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install Pandoc, Miktex
       run: choco install pandoc miktex -y
-    - name: Update PATH
+    - name: Update PATH with MikTex executables
       run: ls "C:\Program Files\MiKTeX\miktex\bin\x64" && "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-    - name: Check PATH
-      run: $env:path
-    - name: Check PDF Latex
-      run: pdflatex -version
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
@@ -36,4 +32,4 @@ jobs:
     - name: Build Executable
       run: cd PandocGui && dotnet publish --output "c:/temp/pandocgui" --runtime win-x64 --configuration Release -p:PublishSingleFile=true --self-contained true
     - name: Compile Installer
-      run: iscc "isntaller.iss"
+      run: iscc "installer.iss"
