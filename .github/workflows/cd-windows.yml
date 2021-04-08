@@ -15,7 +15,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install Pandoc, Miktex and InnoSetup
       run: choco install pandoc miktex -y
-    - name: Install Pandoc, Miktex and InnoSetup
+    - name: Check PATH
+      run: $env:path
+    - name: Check PDF Latex
       run: pdflatex -version
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
