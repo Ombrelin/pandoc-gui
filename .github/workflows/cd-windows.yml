@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-
+    name: Build Windows Installer
     runs-on: windows-latest
 
     steps:
@@ -33,3 +33,8 @@ jobs:
       run: cd PandocGui && dotnet publish --output "c:/temp/pandocgui" --runtime win-x64 --configuration Release -p:PublishSingleFile=true --self-contained true
     - name: Compile Installer
       run: iscc "installer.iss"
+    - name: Save Installer as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: pandoc-gui-setup
+          path: C:\temp\pandocgui\pandoc-gui-setup.exe
