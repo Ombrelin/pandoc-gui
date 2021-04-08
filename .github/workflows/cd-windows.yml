@@ -19,6 +19,8 @@ jobs:
       run: choco install miktex -y
     - name: Install InnoSetup
       run: choco install InnoSetup -y
+    - name: Check PATH
+      run: $env:path
     - name: Check PDF Latex
       run: pdflatex -version
     - name: Setup .NET
