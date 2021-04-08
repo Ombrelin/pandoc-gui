@@ -15,6 +15,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install Pandoc
       run: choco install pandoc -y
+    - name: Install Pandoc
+      run: choco install miktex -y
     - name: Install InnoSetup
       run: choco install InnoSetup -y
     - name: Setup .NET
