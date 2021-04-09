@@ -37,9 +37,7 @@ winget install Pandoc MiKTex
 ### Linux
 
 ```bash
-sudo apt-get install pandoc
-sudo apt-get install texlive-latex-extra
-sudo apt install texlive-latex-recommended
+sudo apt-get install pandoc texlive-latex-extra texlive-latex-recommended
 ```
 
 ### MacOs
