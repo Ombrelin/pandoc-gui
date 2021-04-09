@@ -16,7 +16,48 @@ Pandoc GUI runs on .NET 5.
 
 ![Main UI](./screenshots/main-ui.png)
 
+## Prerequisites
+
+### Windows
+
+Check that you have Pandoc and MikTex installed.
+
+#### Using Chocolatey
+
+```bash
+choco install pandoc miktex -y
+```
+
+#### Using winget
+
+```bash
+winget install Pandoc MiKTex
+```
+
+### Linux
+
+```bash
+sudo apt-get install pandoc
+sudo apt-get install texlive-latex-extra
+sudo apt install texlive-latex-recommended
+```
+
+### MacOs
+
 ## Install Release
+
+### Windows
+
+ - [Download Installer](https://github.com/Ombrelin/pandoc-gui/releases/download/v1.0/pandoc-gui-setup.exe)
+ - Just run the installer
+
+No need to install the .NET 5 Runtime, it has been bundled in the executable.
+
+### MacOS
+
+WIP
+
+### Linux
 
 WIP
 
