@@ -42,6 +42,11 @@ sudo apt-get install pandoc texlive-latex-extra texlive-latex-recommended
 
 ### MacOs
 
+```bash
+brew install pandoc
+brew install --cask miktex-console
+```
+
 ## Install Release
 
 ### Windows
