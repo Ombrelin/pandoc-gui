@@ -1,5 +1,7 @@
 # Pandoc GUI
 
+![Icon](./PandocGui/Assets/avalonia-logo.ico)
+
 This software aims to provide a clean and modern GUI to generate PDF documents from markdown using Pandoc, with the ability to pass several options, like : 
 
 - Custom code highlithing theme
@@ -44,7 +46,8 @@ sudo apt-get install pandoc texlive-latex-extra texlive-latex-recommended
 
 ```bash
 brew install pandoc
-brew install --cask miktex-console
+curl http://mirror.ctan.org/systems/mac/mactex/BasicTeX.pkg -o
+sudo installer -pkg BasicTeX.pkg -target /
 ```
 
 ## Install Release
@@ -74,8 +77,12 @@ cd pandoc-gui/PandocGui
 dotnet run
 ```
 
+> On Mac / Linux : `sudo dotnet run`
+
 ## Special Thanks
 
 - AvaloniaUI
 - ReactiveUI
 - Pandoc
+- [@Naaviiss](https://github.com/Naaviiss) for help with macOS run & deployment
+- [@Grandkhan](https://github.com/Grandkhan) for the app icon
