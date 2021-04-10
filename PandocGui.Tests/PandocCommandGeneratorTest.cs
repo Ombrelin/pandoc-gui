@@ -128,7 +128,7 @@ namespace PandocGui.Tests
             // Then
             Assert.Equal("-f markdown \"test.md\" --pdf-engine=xelatex", command);
         }
-        
+
         [Fact]
         public void LogGenerator_ReturnsLogCommand()
         {
@@ -153,8 +153,7 @@ namespace PandocGui.Tests
         public async Task ExecuteCommand_RendersPdf()
         {
             // Given
-            IPandocCommandGenerator generator = new PandocCommandGenerator();
-
+            IPandocCli cli = new PandocCli();
             string[] lines =
             {
                 "# First line", "## Second line", "### Third line"
@@ -163,10 +162,13 @@ namespace PandocGui.Tests
             await File.WriteAllLinesAsync("test.md", lines);
 
             // When
-            var exitCode = await generator.ExecuteAsync("test.md", "test.pdf");
+            await cli.ExportPdfAsync(new PandocParameters()
+            {
+                SourcePath = "test.md",
+                TargetPath = "test.pdf"
+            });
 
             // Then
-            Assert.Equal(0, exitCode);
             Assert.True(File.Exists("test.pdf"));
 
             File.Delete("test.md");
@@ -177,10 +179,14 @@ namespace PandocGui.Tests
         public void ExecuteCommand_NotPdf_Throws()
         {
             // Given
-            PandocExecutableCommandGenerator generator = new PandocCommandGenerator();
-
+            IPandocCli cli = new PandocCli();
             // When Then
-            Assert.Throws<ArgumentException>(() => generator.GetExecutionCommand("text.md", "test.txt"));
+            Assert.ThrowsAsync<ArgumentException>(async () => await cli.ExportPdfAsync(new PandocParameters()
+                {
+                    SourcePath = "test.md",
+                    TargetPath = "test.pdf"
+                })
+            );
         }
 
         [Fact]

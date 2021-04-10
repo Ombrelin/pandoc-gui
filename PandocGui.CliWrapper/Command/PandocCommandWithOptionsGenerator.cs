@@ -1,6 +1,6 @@
 ﻿namespace PandocGui.CliWrapper.Command
 {
-    public abstract class PandocCommandWithOptionsGenerator : PandocExecutableCommandGenerator
+    public abstract class PandocCommandWithOptionsGenerator : IPandocCommandGenerator
     {
         public IPandocCommandGenerator CommandGenerator { get; }
 
@@ -8,5 +8,7 @@
         {
             this.CommandGenerator = commandGenerator;
         }
+
+        public abstract string GetCommand(string sourcePath);
     }
 }
