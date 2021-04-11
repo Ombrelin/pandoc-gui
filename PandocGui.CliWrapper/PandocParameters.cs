@@ -18,5 +18,10 @@ namespace PandocGui.CliWrapper
         public bool TableOfContents { get; set; } = false;
         public bool LogToFile { get; set; } = false;
         public string LogFilePath { get; set; }
+
+        public override string ToString()
+        {
+            return $"{nameof(SourcePath)}: {SourcePath}, {nameof(TargetPath)}: {TargetPath}, {nameof(HighlightTheme)}: {HighlightTheme}, {nameof(HighlightThemeSource)}: {HighlightThemeSource}, {nameof(NumberedHeader)}: {NumberedHeader}, {nameof(CustomFont)}: {CustomFont}, {nameof(CustomFontName)}: {CustomFontName}, {nameof(CustomMargin)}: {CustomMargin}, {nameof(CustomMarginValue)}: {CustomMarginValue}, {nameof(CustomPdfEngine)}: {CustomPdfEngine}, {nameof(CustomPdfEngineValue)}: {CustomPdfEngineValue}, {nameof(TableOfContents)}: {TableOfContents}, {nameof(LogToFile)}: {LogToFile}, {nameof(LogFilePath)}: {LogFilePath}";
+        }
     }
 }

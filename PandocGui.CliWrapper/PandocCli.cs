@@ -1,76 +1,59 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using PandocGui.CliWrapper.Command;
+using Serilog;
 
 namespace PandocGui.CliWrapper
 {
     public class PandocCli : IPandocCli
     {
-        private readonly ILogger logger;
-
-        public PandocCli()
-        {
-            using var loggerFactory = LoggerFactory.Create(builder =>
-            {
-                builder
-                    .AddFilter("Microsoft", LogLevel.Warning)
-                    .AddFilter("System", LogLevel.Warning)
-                    .AddFilter("PandocGui.CliWrapper.PandocCli", LogLevel.Debug)
-                    .AddConsole();
-            });
-            logger = loggerFactory.CreateLogger<PandocCli>();
-        }
-
-        public PandocCli(ILogger logger)
-        {
-            this.logger = logger;
-        }
 
         public async Task ExportPdfAsync(PandocParameters parameters)
         {
             var generator = BuildGenerator(parameters);
 
-            int result =
-                await ExecuteAsync(GetExecutionCommand(generator, parameters.SourcePath, parameters.TargetPath));
-            logger.LogInformation($"Pandoc CLI return code : {result}");
+            int result = await ExecuteAsync(GetExecutionCommand(generator, parameters.SourcePath, parameters.TargetPath));
+            Log.Information($"Pandoc CLI return code : {result}");
             if (result != 0)
             {
                 var error = (PandocErrorCode) result;
-                logger.LogError($"Pandoc Eroor : {error}");
+                Log.Error($"Pandoc Error : {error}");
                 throw new InvalidOperationException($"{error.ToString()}");
             }
         }
 
 
-        public string GetExecutionCommand(IPandocCommandGenerator generator, string sourcePath, string targetPath)
+        private string GetExecutionCommand(IPandocCommandGenerator generator, string sourcePath, string targetPath)
         {
             if (!targetPath.EndsWith(".pdf"))
             {
-                logger.LogError("Target should be a PDF");
+                Log.Error("Target should be a PDF");
                 throw new ArgumentException("Target should be a PDF");
             }
 
             var executionCommand = $"{generator.GetCommand(sourcePath)} -o \"{targetPath}\"";
-            logger.LogInformation($"Computer command : pandoc {executionCommand}");
+            Log.Information($"Computed command : pandoc {executionCommand}");
             return executionCommand;
         }
 
         private async Task<int> ExecuteAsync(string command)
         {
-            using Process process = new Process();
-            process.StartInfo = new ProcessStartInfo()
+            using var process = new Process
             {
-                FileName = "pandoc",
-                Arguments = command,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
+                StartInfo = new ProcessStartInfo()
+                {
+                    FileName = "pandoc",
+                    Arguments = command,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                }
             };
-            ;
-            process.OutputDataReceived += (s, e) => logger.LogInformation(e.Data);
-            process.ErrorDataReceived += (s, e) => logger.LogError(e.Data);
+            
+            process.OutputDataReceived += (s, e) => Log.Information($"Pandoc Info : {e.Data}");
+            process.ErrorDataReceived += (s, e) => Log.Error($"Pandoc Error : {e.Data}");
 
             process.Start();
             process.BeginOutputReadLine();
@@ -87,10 +70,12 @@ namespace PandocGui.CliWrapper
 
         public IPandocCommandGenerator BuildGenerator(PandocParameters parameters)
         {
+            Log.Information($"Building generator with parameters : {parameters}");
             var validationResult = new PandocParametersValidator().Validate(parameters);
 
             if (!validationResult.IsValid)
             {
+                Log.Error("Invalid Parameters !");
                 throw new ArgumentException("Invalid parameters");
             }
 
