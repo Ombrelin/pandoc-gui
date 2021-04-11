@@ -153,7 +153,7 @@ namespace PandocGui.Tests
         public async Task ExecuteCommand_RendersPdf()
         {
             // Given
-            IPandocCli cli = new PandocCli();
+            IPandocCli cli = new PandocCli(Directory.GetCurrentDirectory());
             string[] lines =
             {
                 "# First line", "## Second line", "### Third line"
@@ -179,7 +179,7 @@ namespace PandocGui.Tests
         public void ExecuteCommand_NotPdf_Throws()
         {
             // Given
-            IPandocCli cli = new PandocCli();
+            IPandocCli cli = new PandocCli(Directory.GetCurrentDirectory());
             // When Then
             Assert.ThrowsAsync<ArgumentException>(async () => await cli.ExportPdfAsync(new PandocParameters()
                 {
@@ -211,7 +211,7 @@ namespace PandocGui.Tests
                 LogFilePath = "logs.txt"
             };
 
-            var cli = new PandocCli();
+            var cli = new PandocCli(Directory.GetCurrentDirectory());
 
             // When
             var generator = cli.BuildGenerator(parameters);

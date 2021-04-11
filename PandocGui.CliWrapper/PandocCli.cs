@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using PandocGui.CliWrapper.Command;
 using Serilog;
@@ -8,6 +9,12 @@ namespace PandocGui.CliWrapper
 {
     public class PandocCli : IPandocCli
     {
+        private readonly string workingDirectory;
+
+        public PandocCli(string workingDirectory)
+        {
+            this.workingDirectory = workingDirectory;
+        }
 
         public async Task ExportPdfAsync(PandocParameters parameters)
         {
@@ -48,7 +55,8 @@ namespace PandocGui.CliWrapper
                     UseShellExecute = false,
                     CreateNoWindow = true,
                     RedirectStandardOutput = true,
-                    RedirectStandardError = true
+                    RedirectStandardError = true,
+                    WorkingDirectory = this.workingDirectory
                 }
             };
             

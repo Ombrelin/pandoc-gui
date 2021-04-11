@@ -32,7 +32,7 @@ namespace PandocGui
 
                 desktop.MainWindow.DataContext =
                     new MainWindowViewModel(new FileDialogService(desktop.MainWindow),
-                        new PandocCli(), dataDirService);
+                        new PandocCli(dataDirService.GetPath()), dataDirService);
             }
 
             base.OnFrameworkInitializationCompleted();
