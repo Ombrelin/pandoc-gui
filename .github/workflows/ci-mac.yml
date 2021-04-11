@@ -1,4 +1,4 @@
-name: CI
+name: CI MacOS
 
 on:
   push:
@@ -8,13 +8,15 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    name: Build & Test on macOS
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Install Pandoc
-      run: sudo apt-get install pandoc && sudo apt-get install texlive-latex-extra && sudo apt install texlive-latex-recommended
+      run: brew install pandoc
+    - name: Install Pdflatex
+      run: curl http://mirror.ctan.org/systems/mac/mactex/BasicTeX.pkg -o && sudo installer -pkg BasicTeX.pkg -target /
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
