@@ -16,7 +16,7 @@ jobs:
     - name: Install Pandoc
       run: brew install pandoc
     - name: Install Pdflatex
-      run: curl http://mirror.ctan.org/systems/mac/mactex/BasicTeX.pkg -o BasicTeX.pkg && sudo installer -pkg BasicTeX.pkg -target /
+      run: curl http://mirror.ctan.org/systems/mac/mactex/BasicTeX.pkg -o BasicTeX.pkg && sudo installer -pkg ./BasicTeX.pkg -target /
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
