@@ -17,6 +17,8 @@ jobs:
       run: brew install pandoc
     - name: Install Pdflatex
       run: curl https://ctan.crest.fr/tex-archive/systems/mac/mactex/BasicTeX.pkg -o ./BasicTeX.pkg && sudo installer -pkg ./BasicTeX.pkg -target /
+    - name: Check pdflatex
+      run: pdflatex -version
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
