@@ -9,18 +9,15 @@ namespace PandocGui.CliWrapper
 {
     public class PandocCli : IPandocCli
     {
-        private readonly string workingDirectory;
-
-        public PandocCli(string workingDirectory)
-        {
-            this.workingDirectory = workingDirectory;
-        }
 
         public async Task ExportPdfAsync(PandocParameters parameters)
         {
             var generator = BuildGenerator(parameters);
 
-            int result = await ExecuteAsync(GetExecutionCommand(generator, parameters.SourcePath, parameters.TargetPath));
+            int result = await ExecuteAsync(
+                parameters.SourcePath,
+                GetExecutionCommand(generator, parameters.SourcePath, parameters.TargetPath)
+                );
             Log.Information($"Pandoc CLI return code : {result}");
             if (result != 0)
             {
@@ -44,8 +41,10 @@ namespace PandocGui.CliWrapper
             return executionCommand;
         }
 
-        private async Task<int> ExecuteAsync(string command)
+        private async Task<int> ExecuteAsync(string sourcePath,string command)
         {
+            string workingDirectory = new FileInfo(sourcePath).Directory.FullName;
+            
             using var process = new Process
             {
                 StartInfo = new ProcessStartInfo()
@@ -56,7 +55,7 @@ namespace PandocGui.CliWrapper
                     CreateNoWindow = true,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
-                    WorkingDirectory = this.workingDirectory
+                    WorkingDirectory = workingDirectory
                 }
             };
             
