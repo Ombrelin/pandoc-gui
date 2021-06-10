@@ -132,6 +132,15 @@
                         Background="#0066CC">
                         <TextBlock TextAlignment="Center" Width="100" Text="Export" />
                     </Button>
+                    
+                    <Button
+                        x:Name="clearButton"
+                        HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        >
+                        <TextBlock TextAlignment="Center" Width="100" Text="Clear" />
+                    </Button>
                 </StackPanel>
                 <avaloniaProgressRing:ProgressRing
                     x:Name="loader"

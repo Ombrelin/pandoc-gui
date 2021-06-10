@@ -19,17 +19,16 @@ namespace PandocGui.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        public ReactiveCommand<Unit, Task> SearchSourceFileCommand { get; }
-        public ReactiveCommand<Unit, Task> ExportCommand { get; }
-        public ReactiveCommand<Unit, Task> SearchTargetFileCommand { get; }
-        public ReactiveCommand<Unit, Task> SearchHighlightThemeSourceCommand { get; }
+        public ReactiveCommand<Unit, Unit> SearchSourceFileCommand { get; }
+        public ReactiveCommand<Unit, Unit> ExportCommand { get; }
+        public ReactiveCommand<Unit, Unit> SearchTargetFileCommand { get; }
+        public ReactiveCommand<Unit, Unit> SearchHighlightThemeSourceCommand { get; }
         public ReactiveCommand<Unit, Unit> OpenLogFolderCommand { get; }
+        public ReactiveCommand<Unit, Unit> ClearCommand { get; }
 
         [Reactive] public string SourcePath { get; set; }
 
         [Reactive] public string TargetPath { get; set; }
-
-        [Reactive] public bool Loading { get; set; } = false;
 
         [Reactive] public bool CustomHighlightThemeEnabled { get; set; } = false;
 
@@ -50,8 +49,12 @@ namespace PandocGui.ViewModels
         private readonly IFileDialogService fileDialogService;
         private readonly IPandocCli pandoc;
         private readonly IDataDirectoryService dataDirectoryService;
-  
-        public MainWindowViewModel(IFileDialogService fileDialogService, IPandocCli pandoc, IDataDirectoryService dataDirectoryService)
+
+        private readonly ObservableAsPropertyHelper<bool> isExporting;
+        public bool IsExporting => isExporting.Value;
+
+        public MainWindowViewModel(IFileDialogService fileDialogService, IPandocCli pandoc,
+            IDataDirectoryService dataDirectoryService)
         {
             dataDirectoryService.EnsureCreated();
             SourcePath = "";
@@ -59,13 +62,15 @@ namespace PandocGui.ViewModels
             this.fileDialogService = fileDialogService;
             this.pandoc = pandoc;
             this.dataDirectoryService = dataDirectoryService;
-            SearchSourceFileCommand = ReactiveCommand.Create(SearchInputFile);
-            SearchTargetFileCommand = ReactiveCommand.Create(SearchOutputFile);
-            ExportCommand = ReactiveCommand.Create(Export);
-            SearchHighlightThemeSourceCommand = ReactiveCommand.Create(SearchHighlightThemeSource);
+            ClearCommand = ReactiveCommand.CreateFromTask(Clear);
+            SearchSourceFileCommand = ReactiveCommand.CreateFromTask(SearchInputFile);
+            SearchTargetFileCommand = ReactiveCommand.CreateFromTask(SearchOutputFile);
+            ExportCommand = ReactiveCommand.CreateFromTask(Export);
+            ExportCommand.IsExecuting.ToProperty(this, x => x.IsExporting, out isExporting);
+            SearchHighlightThemeSourceCommand = ReactiveCommand.CreateFromTask(SearchHighlightThemeSource);
             OpenLogFolderCommand = ReactiveCommand.Create(dataDirectoryService.OpenLogFolder);
         }
-        
+
         private async Task SearchHighlightThemeSource()
         {
             CustomHighlightThemeSource = await fileDialogService.OpenFileAsync();
@@ -73,7 +78,6 @@ namespace PandocGui.ViewModels
 
         private async Task Export()
         {
-            Loading = true;
             try
             {
                 this.Result = "";
@@ -92,7 +96,8 @@ namespace PandocGui.ViewModels
                     CustomPdfEngineValue = CustomPdfEngineValue,
                     TableOfContents = TableOfContentEnabled,
                     LogToFile = true,
-                    LogFilePath = @$"{dataDirectoryService.GetLogsPath()}\pandoc-logs-{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.json"
+                    LogFilePath =
+                        @$"{dataDirectoryService.GetLogsPath()}\pandoc-logs-{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.json"
                 });
                 this.IsError = false;
                 this.Result = "Success";
@@ -103,12 +108,6 @@ namespace PandocGui.ViewModels
                 this.IsError = true;
                 this.Result = e.Message;
             }
-            finally
-            {
-                Loading = false;
-            }
-
-            
         }
 
         private async Task SearchInputFile()
@@ -121,6 +120,23 @@ namespace PandocGui.ViewModels
         {
             TargetPath = await fileDialogService.SaveFileAsync();
             Console.WriteLine($"Source path : {TargetPath}");
+        }
+
+        private async Task Clear()
+        {
+            SourcePath = "";
+            TargetPath = "";
+
+            CustomHighlightThemeEnabled = false;
+            CustomHighlightThemeSource = "";
+            NumberedHeadersEnabled = false;
+            CustomFontEnabled = false;
+            CustomFontName = "";
+            CustomMarginEnabled = false;
+            CustomMarginValue = 1.3m;
+            CustomPdfEngineEnabled = false;
+            CustomPdfEngineValue = "";
+            TableOfContentEnabled = false;
         }
     }
 }
