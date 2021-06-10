@@ -130,17 +130,23 @@
                         HorizontalContentAlignment="Center"
                         VerticalAlignment="Bottom"
                         Background="#0066CC">
-                        <TextBlock TextAlignment="Center" Width="100" Text="Export" />
+                        <TextBlock TextAlignment="Center" Width="305" Text="Export" />
                     </Button>
-                    
-                    <Button
-                        x:Name="clearButton"
-                        HorizontalAlignment="Center"
-                        HorizontalContentAlignment="Center"
-                        VerticalAlignment="Bottom"
-                        >
-                        <TextBlock TextAlignment="Center" Width="100" Text="Clear" />
-                    </Button>
+                    <StackPanel Orientation="Horizontal"    HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom">
+                        <Button
+                            x:Name="clearButton">
+                            <TextBlock TextAlignment="Center" Width="140" Text="Clear" />
+                        </Button>
+                        <Button
+                            x:Name="copyCommandButton"
+                         >
+                            <TextBlock TextAlignment="Center" Width="140" Text="Copy Command" />
+                        </Button>
+                    </StackPanel>
+
+              
+
                 </StackPanel>
                 <avaloniaProgressRing:ProgressRing
                     x:Name="loader"

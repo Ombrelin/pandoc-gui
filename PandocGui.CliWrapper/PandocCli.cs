@@ -27,6 +27,12 @@ namespace PandocGui.CliWrapper
             }
         }
 
+        public string GetCommand(PandocParameters parameters)
+        {
+            var generator = BuildGenerator(parameters);
+            return GetExecutionCommand(generator, parameters.SourcePath, parameters.TargetPath);
+        }
+
 
         private string GetExecutionCommand(IPandocCommandGenerator generator, string sourcePath, string targetPath)
         {

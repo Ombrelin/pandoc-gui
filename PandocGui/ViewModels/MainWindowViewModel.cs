@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Drawing.Text;
 using System.Linq;
 using System.Reactive;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Avalonia.Controls;
-using Avalonia.Controls.Notifications;
+using Avalonia.Input.Platform;
+using Avalonia.Media;
 using PandocGui.CliWrapper;
 using PandocGui.CliWrapper.Command;
 using PandocGui.Services;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Notification = System.Reactive.Notification;
 
 namespace PandocGui.ViewModels
 {
@@ -25,6 +22,7 @@ namespace PandocGui.ViewModels
         public ReactiveCommand<Unit, Unit> SearchHighlightThemeSourceCommand { get; }
         public ReactiveCommand<Unit, Unit> OpenLogFolderCommand { get; }
         public ReactiveCommand<Unit, Unit> ClearCommand { get; }
+        public ReactiveCommand<Unit, Unit> CopyCommand { get; }
 
         [Reactive] public string SourcePath { get; set; }
 
@@ -45,17 +43,20 @@ namespace PandocGui.ViewModels
         [Reactive] public string Result { get; set; } = "";
         [Reactive] public bool IsError { get; set; } = false;
         public List<string> SupportedEngine { get; } = PdfEnginePandocCommandGenerator.supportedEngines.ToList();
-
+        public List<string> InstalledFonts { get; }
+        
+        
         private readonly IFileDialogService fileDialogService;
         private readonly IPandocCli pandoc;
         private readonly IDataDirectoryService dataDirectoryService;
-
+        private readonly IClipboard clipboard;
         private readonly ObservableAsPropertyHelper<bool> isExporting;
         public bool IsExporting => isExporting.Value;
 
         public MainWindowViewModel(IFileDialogService fileDialogService, IPandocCli pandoc,
-            IDataDirectoryService dataDirectoryService)
+            IDataDirectoryService dataDirectoryService, IClipboard clipboard)
         {
+            this.clipboard = clipboard;
             dataDirectoryService.EnsureCreated();
             SourcePath = "";
             TargetPath = "";
@@ -66,9 +67,21 @@ namespace PandocGui.ViewModels
             SearchSourceFileCommand = ReactiveCommand.CreateFromTask(SearchInputFile);
             SearchTargetFileCommand = ReactiveCommand.CreateFromTask(SearchOutputFile);
             ExportCommand = ReactiveCommand.CreateFromTask(Export);
+            CopyCommand = ReactiveCommand.CreateFromTask(CopyPandocToClipBoard);
             ExportCommand.IsExecuting.ToProperty(this, x => x.IsExporting, out isExporting);
             SearchHighlightThemeSourceCommand = ReactiveCommand.CreateFromTask(SearchHighlightThemeSource);
             OpenLogFolderCommand = ReactiveCommand.Create(dataDirectoryService.OpenLogFolder);
+
+            InstalledFonts = GetInstalledFonts();
+        }
+
+        private static List<string> GetInstalledFonts()
+        {
+            using var fontsCollection = new InstalledFontCollection();
+            return fontsCollection
+                .Families
+                .Select(font => font.Name)
+                .ToList();
         }
 
         private async Task SearchHighlightThemeSource()
@@ -81,24 +94,7 @@ namespace PandocGui.ViewModels
             try
             {
                 this.Result = "";
-                await this.pandoc.ExportPdfAsync(new PandocParameters()
-                {
-                    SourcePath = SourcePath,
-                    TargetPath = TargetPath,
-                    HighlightTheme = CustomHighlightThemeEnabled,
-                    HighlightThemeSource = CustomHighlightThemeSource,
-                    NumberedHeader = NumberedHeadersEnabled,
-                    CustomFont = CustomFontEnabled,
-                    CustomFontName = CustomFontName,
-                    CustomMargin = CustomMarginEnabled,
-                    CustomMarginValue = CustomMarginValue,
-                    CustomPdfEngine = CustomPdfEngineEnabled,
-                    CustomPdfEngineValue = CustomPdfEngineValue,
-                    TableOfContents = TableOfContentEnabled,
-                    LogToFile = true,
-                    LogFilePath =
-                        @$"{dataDirectoryService.GetLogsPath()}\pandoc-logs-{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.json"
-                });
+                await this.pandoc.ExportPdfAsync(BuildPandocParameters());
                 this.IsError = false;
                 this.Result = "Success";
             }
@@ -108,6 +104,28 @@ namespace PandocGui.ViewModels
                 this.IsError = true;
                 this.Result = e.Message;
             }
+        }
+
+        private PandocParameters BuildPandocParameters()
+        {
+            return new PandocParameters()
+            {
+                SourcePath = SourcePath,
+                TargetPath = TargetPath,
+                HighlightTheme = CustomHighlightThemeEnabled,
+                HighlightThemeSource = CustomHighlightThemeSource,
+                NumberedHeader = NumberedHeadersEnabled,
+                CustomFont = CustomFontEnabled,
+                CustomFontName = CustomFontName,
+                CustomMargin = CustomMarginEnabled,
+                CustomMarginValue = CustomMarginValue,
+                CustomPdfEngine = CustomPdfEngineEnabled,
+                CustomPdfEngineValue = CustomPdfEngineValue,
+                TableOfContents = TableOfContentEnabled,
+                LogToFile = true,
+                LogFilePath =
+                    @$"{dataDirectoryService.GetLogsPath()}\pandoc-logs-{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.json"
+            };
         }
 
         private async Task SearchInputFile()
@@ -137,6 +155,11 @@ namespace PandocGui.ViewModels
             CustomPdfEngineEnabled = false;
             CustomPdfEngineValue = "";
             TableOfContentEnabled = false;
+        }
+
+        private async Task CopyPandocToClipBoard()
+        {
+            clipboard.SetTextAsync($"pandoc {pandoc.GetCommand(BuildPandocParameters())}");
         }
     }
 }

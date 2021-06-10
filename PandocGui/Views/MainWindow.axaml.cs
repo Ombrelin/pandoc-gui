@@ -22,6 +22,7 @@ namespace PandocGui.Views
         private Button SearchTargetFileButton => this.FindControl<Button>("searchTargetFileButton");
         private Button ExportButton => this.FindControl<Button>("exportButton");
         private Button ClearButton => this.FindControl<Button>("clearButton");
+        private Button CopyButton => this.FindControl<Button>("copyCommandButton");
         private ProgressRing Loader => this.FindControl<ProgressRing>("loader");
 
         private ToggleSwitch HighlightEnabledToggle => this.FindControl<ToggleSwitch>("highlightToggle");
@@ -78,7 +79,10 @@ namespace PandocGui.Views
                     vm => vm.ClearCommand,
                     v => v.ClearButton
                 ).DisposeWith(disposable);
-
+                this.BindCommand(ViewModel,
+                    vm => vm.CopyCommand,
+                    v => v.CopyButton
+                ).DisposeWith(disposable);
 
                 this.Bind(ViewModel,
                     vm => vm.IsExporting,
