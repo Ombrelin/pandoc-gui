@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:avaloniaProgressRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
         mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="600"
-        Width="350" Height="750"
+        Width="350" Height="760"
         MinWidth="350"
         x:Class="PandocGui.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -80,7 +80,13 @@
                     </Grid>
                     <Grid Width="305">
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center">Custom Font Name :</TextBlock>
-                        <TextBox Width="150" HorizontalAlignment="Right" x:Name="fontNameInput" />
+                        <ComboBox HorizontalAlignment="Right" Width="150" x:Name="fontNameCombobox">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                     </Grid>
 
 
@@ -132,16 +138,16 @@
                         Background="#0066CC">
                         <TextBlock TextAlignment="Center" Width="305" Text="Export" />
                     </Button>
-                    <StackPanel Orientation="Horizontal"    HorizontalAlignment="Center"
+                    <StackPanel Orientation="Horizontal" Spacing="8"   HorizontalAlignment="Center"
                                 VerticalAlignment="Bottom">
                         <Button
                             x:Name="clearButton">
-                            <TextBlock TextAlignment="Center" Width="140" Text="Clear" />
+                            <TextBlock TextAlignment="Center" Width="136" Text="Clear" />
                         </Button>
                         <Button
                             x:Name="copyCommandButton"
                          >
-                            <TextBlock TextAlignment="Center" Width="140" Text="Copy Command" />
+                            <TextBlock TextAlignment="Center" Width="136" Text="Copy Command" />
                         </Button>
                     </StackPanel>
 
