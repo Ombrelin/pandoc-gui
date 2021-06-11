@@ -32,7 +32,7 @@ namespace PandocGui.Views
 
         private ToggleSwitch CustomFontEnabledToggle => this.FindControl<ToggleSwitch>("customFontToggle");
 
-        private TextBox CustomFontNameInput => this.FindControl<TextBox>("fontNameInput");
+        private ComboBox CustomFontNameComboBox => this.FindControl<ComboBox>("fontNameCombobox");
         private ToggleSwitch CustomMarginEnabledToggle => this.FindControl<ToggleSwitch>("customMarginToggle");
         private NumericUpDown CustomMarginValueInput => this.FindControl<NumericUpDown>("customMarginInput");
         private ComboBox PdfEngineCombobox => this.FindControl<ComboBox>("pdfEngineCombobox");
@@ -129,11 +129,15 @@ namespace PandocGui.Views
                 ).DisposeWith(disposable);
                 this.OneWayBind(ViewModel,
                     vm => vm.CustomFontEnabled,
-                    v => v.CustomFontNameInput.IsEnabled
+                    v => v.CustomFontNameComboBox.IsEnabled
                 ).DisposeWith(disposable);
                 this.Bind(ViewModel,
                     vm => vm.CustomFontName,
-                    v => v.CustomFontNameInput.Text
+                    v => v.CustomFontNameComboBox.SelectedItem
+                ).DisposeWith(disposable);
+                this.OneWayBind(ViewModel,
+                    vm => vm.InstalledFonts,
+                    v => v.CustomFontNameComboBox.Items
                 ).DisposeWith(disposable);
                 this.Bind(ViewModel,
                     vm => vm.CustomMarginEnabled,
