@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandocGui.CliWrapper", "Pan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandocGui.Tests", "PandocGui.Tests\PandocGui.Tests.csproj", "{C960F1FA-6F32-4842-AD56-E4671A7E725B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandocGui.Editor", "PandocGui.Editor\PandocGui.Editor.csproj", "{E08F8E90-0CCC-4512-9C5F-9FB2241A7C6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{C960F1FA-6F32-4842-AD56-E4671A7E725B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C960F1FA-6F32-4842-AD56-E4671A7E725B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C960F1FA-6F32-4842-AD56-E4671A7E725B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E08F8E90-0CCC-4512-9C5F-9FB2241A7C6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E08F8E90-0CCC-4512-9C5F-9FB2241A7C6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E08F8E90-0CCC-4512-9C5F-9FB2241A7C6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E08F8E90-0CCC-4512-9C5F-9FB2241A7C6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
