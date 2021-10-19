@@ -1,7 +1,9 @@
 using System;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using FluentAvalonia.Styling;
 using PandocGui.CliWrapper;
 using PandocGui.Services;
 using PandocGui.ViewModels;
@@ -19,11 +21,15 @@ namespace PandocGui
 
         public override void OnFrameworkInitializationCompleted()
         {
+            
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = new MainWindow();
                 var dataDirService = new DataDirectoryService();
 
+                var thm = AvaloniaLocator.Current.GetService<FluentAvaloniaTheme>();
+                thm.ForceNativeTitleBarToTheme(desktop.MainWindow);
+                
                 Log.Logger = new LoggerConfiguration()
                     .MinimumLevel.Debug()
                     .WriteTo.Console()

@@ -1,13 +1,16 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:PandocGui"
+             xmlns:sty="using:FluentAvalonia.Styling"
              x:Class="PandocGui.App">
+
     <Application.DataTemplates>
         <local:ViewLocator />
     </Application.DataTemplates>
 
     <Application.Styles>
-        <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml" />
-        <FluentTheme Mode="Dark" />
+        <sty:FluentAvaloniaTheme ControlsVersion="2" UseSegoeUIOnWindows="True" DefaultToUserTheme="True"  />
+        <!--<StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml" />
+        <FluentTheme Mode="Dark" />-->
     </Application.Styles>
 </Application>
