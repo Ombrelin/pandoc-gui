@@ -33,7 +33,8 @@ choco install pandoc miktex -y
 #### Using winget
 
 ```bash
-winget install Pandoc MiKTex
+winget install MiKTex
+winget install Pandoc
 ```
 
 ### Linux
