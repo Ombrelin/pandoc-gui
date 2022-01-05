@@ -6,7 +6,6 @@ using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using Avalonia.Input.Platform;
-using Avalonia.Media;
 using PandocGui.CliWrapper;
 using PandocGui.CliWrapper.Command;
 using PandocGui.Services;

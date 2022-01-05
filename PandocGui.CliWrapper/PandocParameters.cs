@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PandocGui.CliWrapper;
+﻿namespace PandocGui.CliWrapper;
 
 public class PandocParameters
 {

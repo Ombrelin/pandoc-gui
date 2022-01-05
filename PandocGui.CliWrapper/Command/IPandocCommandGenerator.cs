@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace PandocGui.CliWrapper.Command;
+﻿namespace PandocGui.CliWrapper.Command;
 
 public interface IPandocCommandGenerator
 {

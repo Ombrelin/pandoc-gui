@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using PandocGui.CliWrapper;
 using PandocGui.CliWrapper.Command;
