@@ -33,6 +33,7 @@ namespace PandocGui.Views
         private ToggleSwitch CustomFontEnabledToggle => this.FindControl<ToggleSwitch>("customFontToggle");
 
         private ComboBox CustomFontNameComboBox => this.FindControl<ComboBox>("fontNameCombobox");
+        private ComboBox OutPutFormatComboBox => this.FindControl<ComboBox>("outPutFormat");
         private ToggleSwitch CustomMarginEnabledToggle => this.FindControl<ToggleSwitch>("customMarginToggle");
         private NumericUpDown CustomMarginValueInput => this.FindControl<NumericUpDown>("customMarginInput");
         private ComboBox PdfEngineCombobox => this.FindControl<ComboBox>("pdfEngineCombobox");
@@ -40,8 +41,8 @@ namespace PandocGui.Views
         private ToggleSwitch ContentTableToggle => this.FindControl<ToggleSwitch>("contentTableToggle");
         private TextBlock ResultText => this.FindControl<TextBlock>("resultText");
         private MenuItem OpenLogFolderMenu => this.FindControl<MenuItem>("openLogFolderMenu");
-        
-        
+        private ToggleSwitch OpenOnCompletionToggle => this.FindControl<ToggleSwitch>("openOnCompletionToggle");
+
         public MainWindow()
         {
             InitializeComponent();
@@ -74,7 +75,7 @@ namespace PandocGui.Views
                     vm => vm.ExportCommand,
                     v => v.ExportButton
                 ).DisposeWith(disposable);
-                
+
                 this.BindCommand(ViewModel,
                     vm => vm.ClearCommand,
                     v => v.ClearButton
@@ -181,10 +182,14 @@ namespace PandocGui.Views
                     v => v.ResultText.Foreground,
                     ErrorStatusToColor
                 ).DisposeWith(disposable);
-                
+
                 this.BindCommand(ViewModel,
                     vm => vm.OpenLogFolderCommand,
                     v => v.OpenLogFolderMenu
+                ).DisposeWith(disposable);
+                this.Bind(ViewModel,
+                    vm => vm.OpenFileOnCompletion,
+                    v => v.OpenOnCompletionToggle.IsChecked
                 ).DisposeWith(disposable);
             });
         }

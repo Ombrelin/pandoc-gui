@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing.Text;
 using System.Linq;
 using System.Reactive;
@@ -42,10 +43,11 @@ namespace PandocGui.ViewModels
         [Reactive] public bool TableOfContentEnabled { get; set; }
         [Reactive] public string Result { get; set; } = "";
         [Reactive] public bool IsError { get; set; } = false;
+        [Reactive] public bool OpenFileOnCompletion { get; set; } = true;
         public List<string> SupportedEngine { get; } = PdfEnginePandocCommandGenerator.supportedEngines.ToList();
         public List<string> InstalledFonts { get; }
-        
-        
+
+
         private readonly IFileDialogService fileDialogService;
         private readonly IPandocCli pandoc;
         private readonly IDataDirectoryService dataDirectoryService;
@@ -97,6 +99,12 @@ namespace PandocGui.ViewModels
                 await this.pandoc.ExportPdfAsync(BuildPandocParameters());
                 this.IsError = false;
                 this.Result = "Success";
+
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = TargetPath,
+                    UseShellExecute = true
+                });
             }
             catch (Exception e)
             {

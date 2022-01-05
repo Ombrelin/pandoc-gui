@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 
 namespace PandocGui.Services
@@ -18,15 +19,29 @@ namespace PandocGui.Services
             {
                 AllowMultiple = false
             };
-            var files = await dialog.ShowAsync(this.window);
-            return files[0];
+            try
+            {
+                var files = await dialog.ShowAsync(this.window);
+                return files[0];
+            }
+            catch (Exception e)
+            {
+                return "";
+            }
         }
 
         public async Task<string> SaveFileAsync()
         {
             var dialog = new SaveFileDialog();
-            var file = await dialog.ShowAsync(this.window);
-            return file;
+            try
+            {
+                var file = await dialog.ShowAsync(this.window);
+                return file;
+            }
+            catch (Exception e)
+            {
+                return "";
+            }
         }
     }
 }

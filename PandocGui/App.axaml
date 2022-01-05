@@ -5,7 +5,7 @@
              xmlns:ui="using:FluentAvalonia.UI.Controls"
              xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives"
              x:Class="PandocGui.App">
-    <sty:FluentAvaloniaTheme />
+    
     <Application.DataTemplates>
         <local:ViewLocator />
     </Application.DataTemplates>
@@ -13,5 +13,6 @@
     <Application.Styles>
         <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml" />
         <FluentTheme Mode="Dark" />
+        <sty:FluentAvaloniaTheme />
     </Application.Styles>
 </Application>

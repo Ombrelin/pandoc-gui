@@ -36,12 +36,6 @@ namespace PandocGui.CliWrapper
 
         private string GetExecutionCommand(IPandocCommandGenerator generator, string sourcePath, string targetPath)
         {
-            if (!targetPath.EndsWith(".pdf"))
-            {
-                Log.Error("Target should be a PDF");
-                throw new ArgumentException("Target should be a PDF");
-            }
-
             var executionCommand = $"{generator.GetCommand(sourcePath)} -o \"{targetPath}\"";
             Log.Information($"Computed command : pandoc {executionCommand}");
             return executionCommand;
