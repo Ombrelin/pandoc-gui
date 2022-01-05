@@ -58,7 +58,7 @@ sudo installer -pkg BasicTeX.pkg -target /
  - [Download Installer](https://github.com/Ombrelin/pandoc-gui/releases/download/v1.0/pandoc-gui-setup.exe)
  - Just run the installer
 
-No need to install the .NET 5 Runtime, it has been bundled in the executable.
+No need to install the .NET 6 Runtime, it has been bundled in the executable.
 
 ### MacOS
 
@@ -70,7 +70,7 @@ WIP
 
 ## Run Dev
 
-Make sure you gave the .NET 5 SDK installed.
+Make sure you have the latest .NET 6 SDK installed.
 
 ```bash
 git clone https://github.com/Ombrelin/pandoc-gui
