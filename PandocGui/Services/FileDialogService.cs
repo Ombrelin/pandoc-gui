@@ -24,7 +24,7 @@ public class FileDialogService : IFileDialogService
             var files = await dialog.ShowAsync(this.window);
             return files[0];
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return "";
         }
@@ -38,7 +38,7 @@ public class FileDialogService : IFileDialogService
             var file = await dialog.ShowAsync(this.window);
             return file;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return "";
         }

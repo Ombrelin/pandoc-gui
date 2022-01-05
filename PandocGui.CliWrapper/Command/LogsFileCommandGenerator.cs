@@ -2,7 +2,7 @@
 
 public class LogsFileCommandGenerator : PandocCommandWithOptionsGenerator
 {
-    private string logFilePath;
+    private readonly string logFilePath;
 
     public LogsFileCommandGenerator(IPandocCommandGenerator commandGenerator, string logFilePath) : base(commandGenerator)
     {

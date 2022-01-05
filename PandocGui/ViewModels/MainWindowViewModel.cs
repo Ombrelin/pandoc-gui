@@ -148,7 +148,7 @@ public class MainWindowViewModel : ViewModelBase
         Console.WriteLine($"Source path : {TargetPath}");
     }
 
-    private async Task Clear()
+    private Task Clear()
     {
         SourcePath = "";
         TargetPath = "";
@@ -163,10 +163,12 @@ public class MainWindowViewModel : ViewModelBase
         CustomPdfEngineEnabled = false;
         CustomPdfEngineValue = "";
         TableOfContentEnabled = false;
+        return Task.CompletedTask;
     }
 
-    private async Task CopyPandocToClipBoard()
+    private Task CopyPandocToClipBoard()
     {
         clipboard.SetTextAsync($"pandoc {pandoc.GetCommand(BuildPandocParameters())}");
+        return Task.CompletedTask;
     }
 }

@@ -2,8 +2,8 @@
 
 public class KeyValuePandocCommandOptionsGenerator : PandocCommandWithOptionsGenerator
 {
-    private string key;
-    private string value;
+    private readonly string key;
+    private readonly string value;
 
     public KeyValuePandocCommandOptionsGenerator(IPandocCommandGenerator commandGenerator, string key, string value)
         : base(commandGenerator)

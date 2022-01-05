@@ -182,10 +182,10 @@ public class PandocCommandGeneratorTest
         IPandocCli cli = new PandocCli();
         // When Then
         Assert.ThrowsAsync<ArgumentException>(async () => await cli.ExportPdfAsync(new PandocParameters()
-            {
-                SourcePath = "test.md",
-                TargetPath = "test.pdf"
-            })
+        {
+            SourcePath = "test.md",
+            TargetPath = "test.pdf"
+        })
         );
     }
 

@@ -5,9 +5,9 @@ namespace PandocGui.CliWrapper.Command;
 
 public class PdfEnginePandocCommandGenerator : PandocCommandWithOptionsGenerator
 {
-    private string engine;
+    private readonly string engine;
 
-    public static HashSet<string> supportedEngines = new HashSet<string>()
+    public static HashSet<string> supportedEngines = new()
     {
         "pdflatex", "lualatex", "xelatex", "latexmk", "tectonic", "wkhtmltopdf", "weasyprint", "prince", "context",
         "pdfroff"
