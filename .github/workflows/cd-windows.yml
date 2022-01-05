@@ -30,7 +30,7 @@ jobs:
     - name: Build Executable
       run: cd PandocGui && dotnet publish --output "c:/temp/pandocgui" --runtime win-x64 --configuration Release -p:PublishSingleFile=true --self-contained true
     - name: Compile Installer
-      run: iscc installer.iss /dBuildNumber=${{github.run_number}}
+      run: iscc installer.iss /dBuildNumber=${{github.run_number}} /dMyAppURL=https://github.com/${{github.repository}}
     - name: Save Installer as Artifact
       uses: actions/upload-artifact@v2
       with:
