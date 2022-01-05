@@ -2,6 +2,7 @@ using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using FluentAvalonia.Styling;
 using PandocGui.CliWrapper;
 using PandocGui.Services;
 using PandocGui.ViewModels;
@@ -24,6 +25,10 @@ namespace PandocGui
                 desktop.MainWindow = new MainWindow();
                 var dataDirService = new DataDirectoryService();
 
+                var theme = AvaloniaLocator.Current.GetService<FluentAvaloniaTheme>();
+                theme.RequestedTheme = "Dark";
+                theme.ForceNativeTitleBarToTheme(desktop.MainWindow);
+                
                 Log.Logger = new LoggerConfiguration()
                     .MinimumLevel.Debug()
                     .WriteTo.Console()
