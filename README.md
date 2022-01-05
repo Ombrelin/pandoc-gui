@@ -12,7 +12,7 @@ This software aims to provide a clean and modern GUI to generate PDF documents f
 - PDF Engine
 - Table of contents
 
-Pandoc GUI runs on .NET 5.
+Pandoc GUI runs on .NET 6.
 
 ## Screenshots
 

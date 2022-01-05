@@ -1,10 +1,9 @@
-﻿namespace PandocGui.CliWrapper.Command
+﻿namespace PandocGui.CliWrapper.Command;
+
+public class GeometryPandocCommandGenerator : KeyValuePandocCommandOptionsGenerator
 {
-    public class GeometryPandocCommandGenerator : KeyValuePandocCommandOptionsGenerator
+    public GeometryPandocCommandGenerator(IPandocCommandGenerator commandGenerator, string value) : base(
+        commandGenerator, "geometry", value)
     {
-        public GeometryPandocCommandGenerator(IPandocCommandGenerator commandGenerator, string value) : base(
-            commandGenerator, "geometry", value)
-        {
-        }
     }
 }

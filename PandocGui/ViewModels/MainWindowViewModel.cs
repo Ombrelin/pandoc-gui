@@ -13,161 +13,160 @@ using PandocGui.Services;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace PandocGui.ViewModels
+namespace PandocGui.ViewModels;
+
+public class MainWindowViewModel : ViewModelBase
 {
-    public class MainWindowViewModel : ViewModelBase
+    public ReactiveCommand<Unit, Unit> SearchSourceFileCommand { get; }
+    public ReactiveCommand<Unit, Unit> ExportCommand { get; }
+    public ReactiveCommand<Unit, Unit> SearchTargetFileCommand { get; }
+    public ReactiveCommand<Unit, Unit> SearchHighlightThemeSourceCommand { get; }
+    public ReactiveCommand<Unit, Unit> OpenLogFolderCommand { get; }
+    public ReactiveCommand<Unit, Unit> ClearCommand { get; }
+    public ReactiveCommand<Unit, Unit> CopyCommand { get; }
+
+    [Reactive] public string SourcePath { get; set; }
+
+    [Reactive] public string TargetPath { get; set; }
+
+    [Reactive] public bool CustomHighlightThemeEnabled { get; set; } = false;
+
+    [Reactive] public string CustomHighlightThemeSource { get; set; } = "";
+
+    [Reactive] public bool NumberedHeadersEnabled { get; set; } = false;
+    [Reactive] public bool CustomFontEnabled { get; set; } = false;
+    [Reactive] public string CustomFontName { get; set; } = "";
+    [Reactive] public bool CustomMarginEnabled { get; set; } = false;
+    [Reactive] public decimal CustomMarginValue { get; set; } = 1.3m;
+    [Reactive] public bool CustomPdfEngineEnabled { get; set; } = false;
+    [Reactive] public string CustomPdfEngineValue { get; set; } = "";
+    [Reactive] public bool TableOfContentEnabled { get; set; }
+    [Reactive] public string Result { get; set; } = "";
+    [Reactive] public bool IsError { get; set; } = false;
+    [Reactive] public bool OpenFileOnCompletion { get; set; } = true;
+    public List<string> SupportedEngine { get; } = PdfEnginePandocCommandGenerator.supportedEngines.ToList();
+    public List<string> InstalledFonts { get; }
+
+
+    private readonly IFileDialogService fileDialogService;
+    private readonly IPandocCli pandoc;
+    private readonly IDataDirectoryService dataDirectoryService;
+    private readonly IClipboard clipboard;
+    private readonly ObservableAsPropertyHelper<bool> isExporting;
+    public bool IsExporting => isExporting.Value;
+
+    public MainWindowViewModel(IFileDialogService fileDialogService, IPandocCli pandoc,
+        IDataDirectoryService dataDirectoryService, IClipboard clipboard)
     {
-        public ReactiveCommand<Unit, Unit> SearchSourceFileCommand { get; }
-        public ReactiveCommand<Unit, Unit> ExportCommand { get; }
-        public ReactiveCommand<Unit, Unit> SearchTargetFileCommand { get; }
-        public ReactiveCommand<Unit, Unit> SearchHighlightThemeSourceCommand { get; }
-        public ReactiveCommand<Unit, Unit> OpenLogFolderCommand { get; }
-        public ReactiveCommand<Unit, Unit> ClearCommand { get; }
-        public ReactiveCommand<Unit, Unit> CopyCommand { get; }
+        this.clipboard = clipboard;
+        dataDirectoryService.EnsureCreated();
+        SourcePath = "";
+        TargetPath = "";
+        this.fileDialogService = fileDialogService;
+        this.pandoc = pandoc;
+        this.dataDirectoryService = dataDirectoryService;
+        ClearCommand = ReactiveCommand.CreateFromTask(Clear);
+        SearchSourceFileCommand = ReactiveCommand.CreateFromTask(SearchInputFile);
+        SearchTargetFileCommand = ReactiveCommand.CreateFromTask(SearchOutputFile);
+        ExportCommand = ReactiveCommand.CreateFromTask(Export);
+        CopyCommand = ReactiveCommand.CreateFromTask(CopyPandocToClipBoard);
+        ExportCommand.IsExecuting.ToProperty(this, x => x.IsExporting, out isExporting);
+        SearchHighlightThemeSourceCommand = ReactiveCommand.CreateFromTask(SearchHighlightThemeSource);
+        OpenLogFolderCommand = ReactiveCommand.Create(dataDirectoryService.OpenLogFolder);
 
-        [Reactive] public string SourcePath { get; set; }
+        InstalledFonts = GetInstalledFonts();
+    }
 
-        [Reactive] public string TargetPath { get; set; }
+    private static List<string> GetInstalledFonts()
+    {
+        using var fontsCollection = new InstalledFontCollection();
+        return fontsCollection
+            .Families
+            .Select(font => font.Name)
+            .ToList();
+    }
 
-        [Reactive] public bool CustomHighlightThemeEnabled { get; set; } = false;
+    private async Task SearchHighlightThemeSource()
+    {
+        CustomHighlightThemeSource = await fileDialogService.OpenFileAsync();
+    }
 
-        [Reactive] public string CustomHighlightThemeSource { get; set; } = "";
-
-        [Reactive] public bool NumberedHeadersEnabled { get; set; } = false;
-        [Reactive] public bool CustomFontEnabled { get; set; } = false;
-        [Reactive] public string CustomFontName { get; set; } = "";
-        [Reactive] public bool CustomMarginEnabled { get; set; } = false;
-        [Reactive] public decimal CustomMarginValue { get; set; } = 1.3m;
-        [Reactive] public bool CustomPdfEngineEnabled { get; set; } = false;
-        [Reactive] public string CustomPdfEngineValue { get; set; } = "";
-        [Reactive] public bool TableOfContentEnabled { get; set; }
-        [Reactive] public string Result { get; set; } = "";
-        [Reactive] public bool IsError { get; set; } = false;
-        [Reactive] public bool OpenFileOnCompletion { get; set; } = true;
-        public List<string> SupportedEngine { get; } = PdfEnginePandocCommandGenerator.supportedEngines.ToList();
-        public List<string> InstalledFonts { get; }
-
-
-        private readonly IFileDialogService fileDialogService;
-        private readonly IPandocCli pandoc;
-        private readonly IDataDirectoryService dataDirectoryService;
-        private readonly IClipboard clipboard;
-        private readonly ObservableAsPropertyHelper<bool> isExporting;
-        public bool IsExporting => isExporting.Value;
-
-        public MainWindowViewModel(IFileDialogService fileDialogService, IPandocCli pandoc,
-            IDataDirectoryService dataDirectoryService, IClipboard clipboard)
+    private async Task Export()
+    {
+        try
         {
-            this.clipboard = clipboard;
-            dataDirectoryService.EnsureCreated();
-            SourcePath = "";
-            TargetPath = "";
-            this.fileDialogService = fileDialogService;
-            this.pandoc = pandoc;
-            this.dataDirectoryService = dataDirectoryService;
-            ClearCommand = ReactiveCommand.CreateFromTask(Clear);
-            SearchSourceFileCommand = ReactiveCommand.CreateFromTask(SearchInputFile);
-            SearchTargetFileCommand = ReactiveCommand.CreateFromTask(SearchOutputFile);
-            ExportCommand = ReactiveCommand.CreateFromTask(Export);
-            CopyCommand = ReactiveCommand.CreateFromTask(CopyPandocToClipBoard);
-            ExportCommand.IsExecuting.ToProperty(this, x => x.IsExporting, out isExporting);
-            SearchHighlightThemeSourceCommand = ReactiveCommand.CreateFromTask(SearchHighlightThemeSource);
-            OpenLogFolderCommand = ReactiveCommand.Create(dataDirectoryService.OpenLogFolder);
+            this.Result = "";
+            await this.pandoc.ExportPdfAsync(BuildPandocParameters());
+            this.IsError = false;
+            this.Result = "Success";
 
-            InstalledFonts = GetInstalledFonts();
-        }
-
-        private static List<string> GetInstalledFonts()
-        {
-            using var fontsCollection = new InstalledFontCollection();
-            return fontsCollection
-                .Families
-                .Select(font => font.Name)
-                .ToList();
-        }
-
-        private async Task SearchHighlightThemeSource()
-        {
-            CustomHighlightThemeSource = await fileDialogService.OpenFileAsync();
-        }
-
-        private async Task Export()
-        {
-            try
+            Process.Start(new ProcessStartInfo
             {
-                this.Result = "";
-                await this.pandoc.ExportPdfAsync(BuildPandocParameters());
-                this.IsError = false;
-                this.Result = "Success";
-
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = TargetPath,
-                    UseShellExecute = true
-                });
-            }
-            catch (Exception e)
-            {
-                await Console.Error.WriteLineAsync(e.Message);
-                this.IsError = true;
-                this.Result = e.Message;
-            }
+                FileName = TargetPath,
+                UseShellExecute = true
+            });
         }
-
-        private PandocParameters BuildPandocParameters()
+        catch (Exception e)
         {
-            return new PandocParameters()
-            {
-                SourcePath = SourcePath,
-                TargetPath = TargetPath,
-                HighlightTheme = CustomHighlightThemeEnabled,
-                HighlightThemeSource = CustomHighlightThemeSource,
-                NumberedHeader = NumberedHeadersEnabled,
-                CustomFont = CustomFontEnabled,
-                CustomFontName = CustomFontName,
-                CustomMargin = CustomMarginEnabled,
-                CustomMarginValue = CustomMarginValue,
-                CustomPdfEngine = CustomPdfEngineEnabled,
-                CustomPdfEngineValue = CustomPdfEngineValue,
-                TableOfContents = TableOfContentEnabled,
-                LogToFile = true,
-                LogFilePath =
-                    @$"{dataDirectoryService.GetLogsPath()}\pandoc-logs-{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.json"
-            };
+            await Console.Error.WriteLineAsync(e.Message);
+            this.IsError = true;
+            this.Result = e.Message;
         }
+    }
 
-        private async Task SearchInputFile()
+    private PandocParameters BuildPandocParameters()
+    {
+        return new PandocParameters()
         {
-            SourcePath = await fileDialogService.OpenFileAsync();
-            Console.WriteLine($"Source path : {SourcePath}");
-        }
+            SourcePath = SourcePath,
+            TargetPath = TargetPath,
+            HighlightTheme = CustomHighlightThemeEnabled,
+            HighlightThemeSource = CustomHighlightThemeSource,
+            NumberedHeader = NumberedHeadersEnabled,
+            CustomFont = CustomFontEnabled,
+            CustomFontName = CustomFontName,
+            CustomMargin = CustomMarginEnabled,
+            CustomMarginValue = CustomMarginValue,
+            CustomPdfEngine = CustomPdfEngineEnabled,
+            CustomPdfEngineValue = CustomPdfEngineValue,
+            TableOfContents = TableOfContentEnabled,
+            LogToFile = true,
+            LogFilePath =
+                @$"{dataDirectoryService.GetLogsPath()}\pandoc-logs-{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.json"
+        };
+    }
 
-        private async Task SearchOutputFile()
-        {
-            TargetPath = await fileDialogService.SaveFileAsync();
-            Console.WriteLine($"Source path : {TargetPath}");
-        }
+    private async Task SearchInputFile()
+    {
+        SourcePath = await fileDialogService.OpenFileAsync();
+        Console.WriteLine($"Source path : {SourcePath}");
+    }
 
-        private async Task Clear()
-        {
-            SourcePath = "";
-            TargetPath = "";
+    private async Task SearchOutputFile()
+    {
+        TargetPath = await fileDialogService.SaveFileAsync();
+        Console.WriteLine($"Source path : {TargetPath}");
+    }
 
-            CustomHighlightThemeEnabled = false;
-            CustomHighlightThemeSource = "";
-            NumberedHeadersEnabled = false;
-            CustomFontEnabled = false;
-            CustomFontName = "";
-            CustomMarginEnabled = false;
-            CustomMarginValue = 1.3m;
-            CustomPdfEngineEnabled = false;
-            CustomPdfEngineValue = "";
-            TableOfContentEnabled = false;
-        }
+    private async Task Clear()
+    {
+        SourcePath = "";
+        TargetPath = "";
 
-        private async Task CopyPandocToClipBoard()
-        {
-            clipboard.SetTextAsync($"pandoc {pandoc.GetCommand(BuildPandocParameters())}");
-        }
+        CustomHighlightThemeEnabled = false;
+        CustomHighlightThemeSource = "";
+        NumberedHeadersEnabled = false;
+        CustomFontEnabled = false;
+        CustomFontName = "";
+        CustomMarginEnabled = false;
+        CustomMarginValue = 1.3m;
+        CustomPdfEngineEnabled = false;
+        CustomPdfEngineValue = "";
+        TableOfContentEnabled = false;
+    }
+
+    private async Task CopyPandocToClipBoard()
+    {
+        clipboard.SetTextAsync($"pandoc {pandoc.GetCommand(BuildPandocParameters())}");
     }
 }

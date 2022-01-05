@@ -2,46 +2,45 @@
 using System.Threading.Tasks;
 using Avalonia.Controls;
 
-namespace PandocGui.Services
+namespace PandocGui.Services;
+
+public class FileDialogService : IFileDialogService
 {
-    public class FileDialogService : IFileDialogService
+    private readonly Window window;
+
+    public FileDialogService(Window window)
     {
-        private readonly Window window;
+        this.window = window;
+    }
 
-        public FileDialogService(Window window)
+    public async Task<string> OpenFileAsync()
+    {
+        var dialog = new OpenFileDialog()
         {
-            this.window = window;
+            AllowMultiple = false
+        };
+        try
+        {
+            var files = await dialog.ShowAsync(this.window);
+            return files[0];
         }
-
-        public async Task<string> OpenFileAsync()
+        catch (Exception e)
         {
-            var dialog = new OpenFileDialog()
-            {
-                AllowMultiple = false
-            };
-            try
-            {
-                var files = await dialog.ShowAsync(this.window);
-                return files[0];
-            }
-            catch (Exception e)
-            {
-                return "";
-            }
+            return "";
         }
+    }
 
-        public async Task<string> SaveFileAsync()
+    public async Task<string> SaveFileAsync()
+    {
+        var dialog = new SaveFileDialog();
+        try
         {
-            var dialog = new SaveFileDialog();
-            try
-            {
-                var file = await dialog.ShowAsync(this.window);
-                return file;
-            }
-            catch (Exception e)
-            {
-                return "";
-            }
+            var file = await dialog.ShowAsync(this.window);
+            return file;
+        }
+        catch (Exception e)
+        {
+            return "";
         }
     }
 }

@@ -1,10 +1,9 @@
-﻿namespace PandocGui.Services
+﻿namespace PandocGui.Services;
+
+public interface IDataDirectoryService
 {
-    public interface IDataDirectoryService
-    {
-        void EnsureCreated();
-        void OpenLogFolder();
-        string GetPath();
-        string GetLogsPath();
-    }
+    void EnsureCreated();
+    void OpenLogFolder();
+    string GetPath();
+    string GetLogsPath();
 }

@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
 
-namespace PandocGui.CliWrapper
+namespace PandocGui.CliWrapper;
+
+public interface IPandocCli
 {
-    public interface IPandocCli
-    {
-        Task ExportPdfAsync(PandocParameters parameters);
-        string GetCommand(PandocParameters parameters);
-    }
+    Task ExportPdfAsync(PandocParameters parameters);
+    string GetCommand(PandocParameters parameters);
 }

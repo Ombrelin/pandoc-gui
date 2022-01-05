@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
 
-namespace PandocGui.Services
+namespace PandocGui.Services;
+
+public interface IFileDialogService
 {
-    public interface IFileDialogService
-    {
-        Task<string> OpenFileAsync();
-        Task<string> SaveFileAsync();
-    }
+    Task<string> OpenFileAsync();
+    Task<string> SaveFileAsync();
 }

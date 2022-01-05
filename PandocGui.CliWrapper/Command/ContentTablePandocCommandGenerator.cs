@@ -1,11 +1,10 @@
-﻿namespace PandocGui.CliWrapper.Command
-{
-    public class ContentTablePandocCommandGenerator : PandocCommandWithOptionsGenerator
-    {
-        public ContentTablePandocCommandGenerator(IPandocCommandGenerator commandGenerator) : base(commandGenerator)
-        {
-        }
+﻿namespace PandocGui.CliWrapper.Command;
 
-        public override string GetCommand(string sourcePath) => $"{CommandGenerator.GetCommand(sourcePath)} --toc";
+public class ContentTablePandocCommandGenerator : PandocCommandWithOptionsGenerator
+{
+    public ContentTablePandocCommandGenerator(IPandocCommandGenerator commandGenerator) : base(commandGenerator)
+    {
     }
+
+    public override string GetCommand(string sourcePath) => $"{CommandGenerator.GetCommand(sourcePath)} --toc";
 }

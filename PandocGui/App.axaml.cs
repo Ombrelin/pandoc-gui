@@ -9,38 +9,37 @@ using PandocGui.ViewModels;
 using PandocGui.Views;
 using Serilog;
 
-namespace PandocGui
+namespace PandocGui;
+
+public class App : Application
 {
-    public class App : Application
+    public override void Initialize()
     {
-        public override void Initialize()
+        AvaloniaXamlLoader.Load(this);
+    }
+
+    public override void OnFrameworkInitializationCompleted()
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            AvaloniaXamlLoader.Load(this);
+            desktop.MainWindow = new MainWindow();
+            var dataDirService = new DataDirectoryService();
+
+            var theme = AvaloniaLocator.Current.GetService<FluentAvaloniaTheme>();
+            theme.RequestedTheme = "Dark";
+            theme.ForceNativeTitleBarToTheme(desktop.MainWindow);
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console()
+                .WriteTo.File(@$"{dataDirService.GetLogsPath()}\app-logs-{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.log")
+                .CreateLogger();
+
+            desktop.MainWindow.DataContext =
+                new MainWindowViewModel(new FileDialogService(desktop.MainWindow),
+                    new PandocCli(), dataDirService, this.Clipboard);
         }
 
-        public override void OnFrameworkInitializationCompleted()
-        {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            {
-                desktop.MainWindow = new MainWindow();
-                var dataDirService = new DataDirectoryService();
-
-                var theme = AvaloniaLocator.Current.GetService<FluentAvaloniaTheme>();
-                theme.RequestedTheme = "Dark";
-                theme.ForceNativeTitleBarToTheme(desktop.MainWindow);
-                
-                Log.Logger = new LoggerConfiguration()
-                    .MinimumLevel.Debug()
-                    .WriteTo.Console()
-                    .WriteTo.File(@$"{dataDirService.GetLogsPath()}\app-logs-{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.log")
-                    .CreateLogger();
-
-                desktop.MainWindow.DataContext =
-                    new MainWindowViewModel(new FileDialogService(desktop.MainWindow),
-                        new PandocCli(), dataDirService, this.Clipboard);
-            }
-
-            base.OnFrameworkInitializationCompleted();
-        }
+        base.OnFrameworkInitializationCompleted();
     }
 }

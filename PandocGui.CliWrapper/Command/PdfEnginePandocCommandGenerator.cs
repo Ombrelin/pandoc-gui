@@ -1,30 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PandocGui.CliWrapper.Command
+namespace PandocGui.CliWrapper.Command;
+
+public class PdfEnginePandocCommandGenerator : PandocCommandWithOptionsGenerator
 {
-    public class PdfEnginePandocCommandGenerator : PandocCommandWithOptionsGenerator
+    private string engine;
+
+    public static HashSet<string> supportedEngines = new HashSet<string>()
     {
-        private string engine;
+        "pdflatex", "lualatex", "xelatex", "latexmk", "tectonic", "wkhtmltopdf", "weasyprint", "prince", "context",
+        "pdfroff"
+    };
 
-        public static HashSet<string> supportedEngines = new HashSet<string>()
+    public PdfEnginePandocCommandGenerator(IPandocCommandGenerator commandGenerator, string engine) : base(
+        commandGenerator)
+    {
+        this.engine = engine;
+
+        if (!supportedEngines.Contains(this.engine))
         {
-            "pdflatex", "lualatex", "xelatex", "latexmk", "tectonic", "wkhtmltopdf", "weasyprint", "prince", "context",
-            "pdfroff"
-        };
-
-        public PdfEnginePandocCommandGenerator(IPandocCommandGenerator commandGenerator, string engine) : base(
-            commandGenerator)
-        {
-            this.engine = engine;
-
-            if (!supportedEngines.Contains(this.engine))
-            {
-                throw new ArgumentException($"Unsupported PDF Engine : {this.engine}");
-            }
+            throw new ArgumentException($"Unsupported PDF Engine : {this.engine}");
         }
-
-        public override string GetCommand(string sourcePath) =>
-            $"{CommandGenerator.GetCommand(sourcePath)} --pdf-engine={this.engine}";
     }
+
+    public override string GetCommand(string sourcePath) =>
+        $"{CommandGenerator.GetCommand(sourcePath)} --pdf-engine={this.engine}";
 }
