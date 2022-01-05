@@ -1,6 +1,6 @@
 
 #define MyAppName "Pandoc GUI"
-#define MyAppVersion "1.0.2"
+#define MyAppVersion "1.1"
 #define MyAppPublisher "Arsene Lapostolet"
 #define MyAppURL "https://github.com/Ombrelin/pandoc-gui"
 #define MyAppExeName "PandocGui.exe"
@@ -8,7 +8,7 @@
 [Setup]
 AppId={{FCD2F146-6DB8-4DDC-AAA2-E9E5DA061AA6}
 AppName={#MyAppName}
-AppVersion={#MyAppVersion}
+AppVersion={#MyAppVersion}.{#BuildNumber}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
