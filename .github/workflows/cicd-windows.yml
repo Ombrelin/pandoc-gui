@@ -39,9 +39,9 @@ jobs:
           name: pandoc-gui-executable
           path: C:\temp\pandocgui
       - name: Compile Installer
-      run: iscc installers/windows/installer.iss /dBuildNumber=${{github.run_number}} /dMyAppURL=https://github.com/${{github.repository}}
-        - name: Save Installer as Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: pandoc-gui-setup
-        path: C:\temp\pandocgui\pandoc-gui-setup.exe
+        run: iscc installers/windows/installer.iss /dBuildNumber=${{github.run_number}} /dMyAppURL=https://github.com/${{github.repository}}
+      - name: Save Installer as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: pandoc-gui-setup
+          path: C:\temp\pandocgui\pandoc-gui-setup.exe
