@@ -14,29 +14,18 @@ jobs:
       image: ombrelin/linux-net6-pandoc
     steps:
     - uses: actions/checkout@v2
+    - name: Install dotnet-deb
+      run: dotnet tool install --global dotnet-deb && cd PandocGui && dotnet deb install
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
-    - name: Build Executable
-      run: cd PandocGui && dotnet publish --runtime linux-x64 --configuration Release -p:PublishSingleFile=true --self-contained true
+    - name: Build Deb
+      run: cd PandocGui && dotnet deb -c Release -r linux-x64
     - name: Save executable as Artifact
       uses: actions/upload-artifact@v2
       with:
         name: pandoc-gui-executable
-        path: PandocGui\bin\Release\net6.0\linux-x64
-  build-installer:
-    name: Build flatpak installer
-    runs-on: ubuntu-latest
-    container: 
-      image: freedesktopsdk/sdk
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@master
-        with:
-          name: pandoc-gui-executable
-          path: ~/pandocgui
-      - name: Build flatpack
-        run: flatpak-builder build-dir fr.arsenelapostolet.pandocgui.yml
+        path: PandocGui\bin\Release\net6.0\PandocGui.1.0.0.deb
