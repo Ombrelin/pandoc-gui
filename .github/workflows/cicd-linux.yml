@@ -1,0 +1,42 @@
+name: CI Linux
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop,master ]
+
+jobs:
+  build-executable:
+    name: Build, Test and compile executable on Linux
+    runs-on: ubuntu-latest
+    container:
+      image: ombrelin/linux-net6-pandoc
+    steps:
+    - uses: actions/checkout@v2
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+    - name: Build Executable
+      run: cd PandocGui && dotnet publish --runtime linux-x64 --configuration Release -p:PublishSingleFile=true --self-contained true
+    - name: Save executable as Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: pandoc-gui-executable
+        path: PandocGui\bin\Release\net6.0\linux-x64
+  build-installer:
+    name: Build flatpak installer
+    runs-on: ubuntu-latest
+    container: 
+      image: freedesktopsdk/sdk
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@master
+        with:
+          name: pandoc-gui-executable
+          path: ~/pandocgui
+      - name: Build flatpack
+        run: flatpak-builder build-dir fr.arsenelapostolet.pandocgui.yml

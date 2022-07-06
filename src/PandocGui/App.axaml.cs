@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -27,7 +28,11 @@ public class App : Application
 
             var theme = AvaloniaLocator.Current.GetService<FluentAvaloniaTheme>();
             theme.RequestedTheme = "Dark";
-            theme.ForceNativeTitleBarToTheme(desktop.MainWindow);
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                theme.ForceNativeTitleBarToTheme(desktop.MainWindow);
+            }
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()

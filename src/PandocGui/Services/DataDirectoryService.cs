@@ -6,7 +6,7 @@ namespace PandocGui.Services;
 
 public class DataDirectoryService : IDataDirectoryService
 {
-    private string DataDirectory => @$"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\.pandoc-gui";
+    private string DataDirectory => @$"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}/.pandoc-gui";
     private string DataDirectoryLogs => @$"{DataDirectory}\logs";
 
 

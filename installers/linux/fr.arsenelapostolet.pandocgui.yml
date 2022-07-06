@@ -1,0 +1,16 @@
+﻿app-id: fr.arsenelapostolet.pandocgui
+runtime: org.freedesktop.Platform
+runtime-version: '21.08'
+sdk: org.freedesktop.Sdk
+command: pandoc-gui
+modules:
+  - name: PandocGUI
+    buildsystem: simple
+    build-commands:
+      - cp -r . /app/bin
+    sources:
+      - type: dir
+        path: ~/pandocgui/
+finish-args:
+  - --socket=x11
+  - --socket=wayland

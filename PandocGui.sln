@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandocGui", "PandocGui\PandocGui.csproj", "{5A9B5F29-8E03-471A-B097-FCABEEE3C60D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandocGui", "src\PandocGui\PandocGui.csproj", "{5A9B5F29-8E03-471A-B097-FCABEEE3C60D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandocGui.CliWrapper", "PandocGui.CliWrapper\PandocGui.CliWrapper.csproj", "{6B89EA93-A3D9-4ADC-80A7-AE5C641CE647}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandocGui.CliWrapper", "src\PandocGui.CliWrapper\PandocGui.CliWrapper.csproj", "{6B89EA93-A3D9-4ADC-80A7-AE5C641CE647}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandocGui.Tests", "PandocGui.Tests\PandocGui.Tests.csproj", "{C960F1FA-6F32-4842-AD56-E4671A7E725B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandocGui.Tests", "tests\PandocGui.Tests\PandocGui.Tests.csproj", "{C960F1FA-6F32-4842-AD56-E4671A7E725B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
