@@ -21,7 +21,7 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal
       - name: Build Executable
-        run: cd PandocGui && dotnet publish --runtime win-x64 --configuration Release -p:PublishSingleFile=true --self-contained true
+        run: cd src/PandocGui && dotnet publish --runtime win-x64 --configuration Release -p:PublishSingleFile=true --self-contained true
       - name: Save executable as Artifact
         uses: actions/upload-artifact@v2
         with:

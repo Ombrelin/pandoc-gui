@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install dotnet-deb
-      run: dotnet tool install --global dotnet-deb && cd PandocGui && dotnet deb install
+      run: dotnet tool install --global dotnet-deb && cd src/PandocGui && dotnet deb install
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
@@ -20,7 +20,7 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Build Deb
-      run: cd PandocGui && dotnet deb -c Release -r linux-x64
+      run: cd src/PandocGui && dotnet deb -c Release -r linux-x64
     - name: Save executable as Artifact
       uses: actions/upload-artifact@v2
       with:
