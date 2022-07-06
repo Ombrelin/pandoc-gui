@@ -2,10 +2,7 @@ name: CI Linux
 
 on:
   push:
-    branches: [ develop ]
-  pull_request:
-    branches: [ develop,master ]
-
+    branches: [ develop, master ]
 jobs:
   build-executable:
     name: Build, Test and compile executable on Linux
