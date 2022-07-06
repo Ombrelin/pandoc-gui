@@ -13,7 +13,7 @@ jobs:
       - name: Install Pandoc and Miktex
         run: choco install pandoc miktex -y
       - name: Add Pandoc to PATH
-        run: ls "C:\Program Files\MiKTeX\miktex\bin\x64" && "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -FilePath $env:PATH -Encoding utf8 -Append
+        run: ls "C:\Program Files\MiKTeX\miktex\bin\x64" && "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
