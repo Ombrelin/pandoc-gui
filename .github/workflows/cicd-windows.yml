@@ -17,21 +17,7 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal
       - name: Build Executable
-        run: cd src/PandocGui && dotnet publish --runtime win-x64 --configuration Release -p:PublishSingleFile=true --self-contained true
-      - name: Save executable as Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: pandoc-gui-executable
-          path: PandocGui\bin\Release\net6.0\win-x64
-  build-installer:
-    name: Compile InnoSetup installer
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@master
-        with:
-          name: pandoc-gui-executable
-          path: C:\temp\pandocgui
+        run: cd src/PandocGui && dotnet publish --runtime win-x64 --configuration Release -p:PublishSingleFile=true --self-contained true --output C:\temp\pandocgui
       - name: Compile Installer
         run: iscc installers/windows/installer.iss /dBuildNumber=${{github.run_number}} /dMyAppURL=https://github.com/${{github.repository}}
       - name: Save Installer as Artifact
