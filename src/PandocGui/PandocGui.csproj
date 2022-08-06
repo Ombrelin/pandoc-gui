@@ -1,28 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <OutputType>WinExe</OutputType>
+        <OutputType>Exe</OutputType>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
         <Nullable>enable</Nullable>
         <ApplicationIcon>Assets/avalonia-logo.ico</ApplicationIcon>
     </PropertyGroup>
     <ItemGroup>
-        <Folder Include="Models\"/>
-        <AvaloniaResource Include="Assets\**"/>
+        <Folder Include="Models\" />
+        <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="0.10.11"/>
-        <PackageReference Include="Avalonia.Desktop" Version="0.10.11"/>
-        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.11"/>
-        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.11"/>
-        <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.5"/>
-        <PackageReference Include="FluentAvaloniaUI" Version="1.1.8"/>
-        <PackageReference Include="ReactiveUI.Fody" Version="17.1.17"/>
-        <PackageReference Include="Serilog" Version="2.11.0-dev-01377"/>
-        <PackageReference Include="Serilog.Sinks.Console" Version="4.0.2-dev-00890"/>
-        <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947"/>
+        <PackageReference Include="Avalonia" Version="0.10.17" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.17" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.17" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.17" />
+        <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.9.5" />
+        <PackageReference Include="FluentAvaloniaUI" Version="1.1.8" />
+        <PackageReference Include="ReactiveUI.Fody" Version="17.1.17" />
+        <PackageReference Include="Serilog" Version="2.11.0-dev-01377" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.0.2-dev-00890" />
+        <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\PandocGui.CliWrapper\PandocGui.CliWrapper.csproj"/>
+        <ProjectReference Include="..\PandocGui.CliWrapper\PandocGui.CliWrapper.csproj" />
     </ItemGroup>
 </Project>

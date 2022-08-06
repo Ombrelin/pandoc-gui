@@ -149,46 +149,6 @@ public class PandocCommandGeneratorTest
     }
 
     [Fact]
-    public async Task ExecuteCommand_RendersPdf()
-    {
-        // Given
-        IPandocCli cli = new PandocCli();
-        string[] lines =
-        {
-            "# First line", "## Second line", "### Third line"
-        };
-
-        await File.WriteAllLinesAsync("test.md", lines);
-
-        // When
-        await cli.ExportPdfAsync(new PandocParameters()
-        {
-            SourcePath = "test.md",
-            TargetPath = "test.pdf"
-        });
-
-        // Then
-        Assert.True(File.Exists("test.pdf"));
-
-        File.Delete("test.md");
-        File.Delete("test.pdf");
-    }
-
-    [Fact]
-    public void ExecuteCommand_NotPdf_Throws()
-    {
-        // Given
-        IPandocCli cli = new PandocCli();
-        // When Then
-        Assert.ThrowsAsync<ArgumentException>(async () => await cli.ExportPdfAsync(new PandocParameters()
-        {
-            SourcePath = "test.md",
-            TargetPath = "test.pdf"
-        })
-        );
-    }
-
-    [Fact]
     public void BuildCommandFromParameters_ProducesCorrectCommand()
     {
         // Given

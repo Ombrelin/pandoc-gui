@@ -8,21 +8,19 @@ jobs:
     name: Build, Test and compile executable on Linux
     runs-on: ubuntu-latest
     container:
-      image: ombrelin/linux-net6-pandoc
+      image: mcr.microsoft.com/dotnet/sdk:6.0
     steps:
     - uses: actions/checkout@v2
-    - name: Install dotnet-deb
-      run: dotnet tool install --global dotnet-deb && export PATH="$PATH:/root/.dotnet/tools" && cd src/PandocGui && dotnet deb install
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
-    - name: Build Deb
-      run: cd src/PandocGui && dotnet deb -c Release -r linux-x64
+    - name: Build Executable
+      run: cd src/PandocGui && dotnet publish -c Release --runtime linux-x64 -p:PublishReadyToRun=true --self-contained --output ./dist/linux-x64
     - name: Save executable as Artifact
       uses: actions/upload-artifact@v2
       with:
         name: pandoc-gui-executable
-        path: PandocGui\bin\Release\net6.0\PandocGui.1.0.0.deb
+        path: src/PandocGui/dist/linux-x64/

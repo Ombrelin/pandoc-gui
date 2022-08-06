@@ -11,6 +11,7 @@ using PandocGui.CliWrapper.Command;
 using PandocGui.Services;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using SkiaSharp;
 
 namespace PandocGui.ViewModels;
 
@@ -76,14 +77,7 @@ public class MainWindowViewModel : ViewModelBase
         InstalledFonts = GetInstalledFonts();
     }
 
-    private static List<string> GetInstalledFonts()
-    {
-        using var fontsCollection = new InstalledFontCollection();
-        return fontsCollection
-            .Families
-            .Select(font => font.Name)
-            .ToList();
-    }
+    private static List<string> GetInstalledFonts() => SKFontManager.Default.FontFamilies.ToList();
 
     private async Task SearchHighlightThemeSource()
     {
@@ -131,7 +125,7 @@ public class MainWindowViewModel : ViewModelBase
             TableOfContents = TableOfContentEnabled,
             LogToFile = true,
             LogFilePath =
-                @$"{dataDirectoryService.GetLogsPath()}\pandoc-logs-{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.json"
+                @$"{dataDirectoryService.GetLogsPath()}/pandoc-logs-{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.json"
         };
     }
 

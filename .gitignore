@@ -5,3 +5,7 @@ riderModule.iml
 /_ReSharper.Caches/
 .idea
 *.user
+.flatpak-builder
+build-dir
+dist/
+

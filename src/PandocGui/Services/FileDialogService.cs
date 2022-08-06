@@ -22,7 +22,7 @@ public class FileDialogService : IFileDialogService
         try
         {
             var files = await dialog.ShowAsync(this.window);
-            return files[0];
+            return files == null ? "" : files[0];
         }
         catch (Exception)
         {
@@ -36,7 +36,7 @@ public class FileDialogService : IFileDialogService
         try
         {
             var file = await dialog.ShowAsync(this.window);
-            return file;
+            return file ?? "";
         }
         catch (Exception)
         {
