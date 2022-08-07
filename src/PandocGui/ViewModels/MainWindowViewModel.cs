@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Text;
+using System.IO;
 using System.Linq;
 using System.Reactive;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Avalonia.Input.Platform;
 using PandocGui.CliWrapper;
@@ -95,8 +97,11 @@ public class MainWindowViewModel : ViewModelBase
 
             Process.Start(new ProcessStartInfo
             {
-                FileName = TargetPath,
-                UseShellExecute = true
+                FileName = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? "xdg-open" : TargetPath,
+                Arguments = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? TargetPath : "",
+                UseShellExecute = !RuntimeInformation.IsOSPlatform(OSPlatform.Linux),
+                CreateNoWindow = true,
+                WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)
             });
         }
         catch (Exception e)
