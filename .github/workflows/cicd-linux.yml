@@ -21,7 +21,7 @@ jobs:
       run: |
         cd src/PandocGui 
         dotnet tool install --global dotnet-deb
-        export PATH=$PATH:~/.dotnet/tools
+        export PATH=$PATH:/root/.dotnet/tools
         dotnet deb install
     - name: Build deb package
       run: |
