@@ -18,12 +18,12 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Install dotnet deb
-      run: >
+      run: >-
         cd src/PandocGui 
         dotnet tool install dotnet-deb
         dotnet deb install
     - name: Build deb package
-      run: >
+      run: >-
         cd src/PandocGui 
         dotnet deb -c Release -f net6.0 -o dist/linux-x64
     - name: Save deb package as artifact
