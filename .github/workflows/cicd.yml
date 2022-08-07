@@ -3,6 +3,8 @@ name: CI/CD
 on:
   push:
     branches: [ develop, master ]
+    tags:
+      - '*'
 jobs:
   build-and-test:
     name: Buid and test application
