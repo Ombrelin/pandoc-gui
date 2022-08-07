@@ -18,9 +18,14 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Install dotnet deb
-      run: dotnet tool install --global dotnet-deb && cd src/PandocGui && dotnet deb install
+      run: >
+        cd src/PandocGui 
+        dotnet tool install dotnet-deb
+        dotnet deb install
     - name: Build deb package
-      run: cd src/PandocGui && dotnet deb -c Release -f net6.0 -o dist/linux-x64
+      run: >
+        cd src/PandocGui 
+        dotnet deb -c Release -f net6.0 -o dist/linux-x64
     - name: Save deb package as artifact
       uses: actions/upload-artifact@v2
       with:
