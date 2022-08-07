@@ -1,6 +1,6 @@
 # Pandoc GUI
 
-![Icon](./PandocGui/Assets/avalonia-logo.ico)
+![Icon](./src/PandocGui/Assets/avalonia-logo.ico)
 
 This software aims to provide a clean and modern GUI to generate PDF documents from markdown using Pandoc, with the ability to pass several options, like : 
 
@@ -55,7 +55,7 @@ sudo installer -pkg BasicTeX.pkg -target /
 
 ### Windows
 
- - [Download Installer](https://github.com/Ombrelin/pandoc-gui/releases/download/v1.0/pandoc-gui-setup.exe)
+ - [Download Installer from release](https://github.com/Ombrelin/pandoc-gui/releases/latest)
  - Just run the installer
 
 No need to install the .NET 6 Runtime, it has been bundled in the executable.
@@ -64,9 +64,13 @@ No need to install the .NET 6 Runtime, it has been bundled in the executable.
 
 WIP
 
-### Linux
+### Linux (Debian based)
 
-WIP
+- [Download the deb package from release](https://github.com/Ombrelin/pandoc-gui/releases/latest)
+- `sudo dpkg -i <deb package>` to install the deb package
+- `PandocGui` to launch the app
+
+No need to install the .NET 6 Runtime, it has been bundled in the executable.
 
 ## Run Dev
 
