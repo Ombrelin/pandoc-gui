@@ -77,6 +77,13 @@ public class MainWindowViewModel : ViewModelBase
         OpenLogFolderCommand = ReactiveCommand.Create(dataDirectoryService.OpenLogFolder);
 
         InstalledFonts = GetInstalledFonts();
+
+        //auto set SourcePath as the file user opened.
+        var args = Environment.GetCommandLineArgs();
+        if (args.Count() > 1 && File.Exists(args[1]))
+        {
+            this.SourcePath= args[1];
+        }
     }
 
     private static List<string> GetInstalledFonts() => SKFontManager.Default.FontFamilies.ToList();
