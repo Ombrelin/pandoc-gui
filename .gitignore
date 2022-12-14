@@ -9,3 +9,6 @@ riderModule.iml
 build-dir
 dist/
 
+#Visual Studio
+.vs/
+**/Properties/launchSettings.json
