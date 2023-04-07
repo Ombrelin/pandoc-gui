@@ -78,7 +78,7 @@ Make sure you have the latest .NET 6 SDK installed.
 
 ```bash
 git clone https://github.com/Ombrelin/pandoc-gui
-cd pandoc-gui/PandocGui
+cd pandoc-gui/src/PandocGui
 dotnet run
 ```
 
