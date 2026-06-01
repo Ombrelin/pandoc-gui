@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 
 namespace PandocGui.Services;
 
@@ -15,14 +16,14 @@ public class FileDialogService : IFileDialogService
 
     public async Task<string> OpenFileAsync()
     {
-        var dialog = new OpenFileDialog()
-        {
-            AllowMultiple = false
-        };
         try
         {
-            var files = await dialog.ShowAsync(this.window);
-            return files == null ? "" : files[0];
+            var files = await window.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            {
+                AllowMultiple = false
+            });
+
+            return files.Count == 0 ? "" : files[0].TryGetLocalPath() ?? "";
         }
         catch (Exception)
         {
@@ -32,11 +33,10 @@ public class FileDialogService : IFileDialogService
 
     public async Task<string> SaveFileAsync()
     {
-        var dialog = new SaveFileDialog();
         try
         {
-            var file = await dialog.ShowAsync(this.window);
-            return file ?? "";
+            var file = await window.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions());
+            return file?.TryGetLocalPath() ?? "";
         }
         catch (Exception)
         {
