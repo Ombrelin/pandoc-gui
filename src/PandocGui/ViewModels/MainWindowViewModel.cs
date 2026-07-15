@@ -12,12 +12,12 @@ using PandocGui.CliWrapper;
 using PandocGui.CliWrapper.Command;
 using PandocGui.Services;
 using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
+using ReactiveUI.SourceGenerators;
 using SkiaSharp;
 
 namespace PandocGui.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase
+public partial class MainWindowViewModel : ViewModelBase
 {
     public ReactiveCommand<Unit, Unit> SearchSourceFileCommand { get; }
     public ReactiveCommand<Unit, Unit> ExportCommand { get; }
@@ -27,25 +27,25 @@ public class MainWindowViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> ClearCommand { get; }
     public ReactiveCommand<Unit, Unit> CopyCommand { get; }
 
-    [Reactive] public string SourcePath { get; set; }
+    [Reactive] public partial string SourcePath { get; set; }
 
-    [Reactive] public string TargetPath { get; set; }
+    [Reactive] public partial string TargetPath { get; set; }
 
-    [Reactive] public bool CustomHighlightThemeEnabled { get; set; } = false;
+    [Reactive] public partial bool CustomHighlightThemeEnabled { get; set; }
 
-    [Reactive] public string CustomHighlightThemeSource { get; set; } = "";
+    [Reactive] public partial string CustomHighlightThemeSource { get; set; }
 
-    [Reactive] public bool NumberedHeadersEnabled { get; set; } = false;
-    [Reactive] public bool CustomFontEnabled { get; set; } = false;
-    [Reactive] public string CustomFontName { get; set; } = "";
-    [Reactive] public bool CustomMarginEnabled { get; set; } = false;
-    [Reactive] public decimal CustomMarginValue { get; set; } = 1.3m;
-    [Reactive] public bool CustomPdfEngineEnabled { get; set; } = false;
-    [Reactive] public string CustomPdfEngineValue { get; set; } = "";
-    [Reactive] public bool TableOfContentEnabled { get; set; }
-    [Reactive] public string Result { get; set; } = "";
-    [Reactive] public bool IsError { get; set; } = false;
-    [Reactive] public bool OpenFileOnCompletion { get; set; } = true;
+    [Reactive] public partial bool NumberedHeadersEnabled { get; set; }
+    [Reactive] public partial bool CustomFontEnabled { get; set; }
+    [Reactive] public partial string CustomFontName { get; set; }
+    [Reactive] public partial bool CustomMarginEnabled { get; set; }
+    [Reactive] public partial decimal CustomMarginValue { get; set; }
+    [Reactive] public partial bool CustomPdfEngineEnabled { get; set; }
+    [Reactive] public partial string CustomPdfEngineValue { get; set; }
+    [Reactive] public partial bool TableOfContentEnabled { get; set; }
+    [Reactive] public partial string Result { get; set; }
+    [Reactive] public partial bool IsError { get; set; }
+    [Reactive] public partial bool OpenFileOnCompletion { get; set; }
     public List<string> SupportedEngine { get; } = PdfEnginePandocCommandGenerator.supportedEngines.ToList();
     public List<string> InstalledFonts { get; }
 
@@ -64,6 +64,12 @@ public class MainWindowViewModel : ViewModelBase
         dataDirectoryService.EnsureCreated();
         SourcePath = "";
         TargetPath = "";
+        CustomHighlightThemeSource = "";
+        CustomFontName = "";
+        CustomMarginValue = 1.3m;
+        CustomPdfEngineValue = "";
+        Result = "";
+        OpenFileOnCompletion = true;
         this.fileDialogService = fileDialogService;
         this.pandoc = pandoc;
         this.dataDirectoryService = dataDirectoryService;
