@@ -14,6 +14,6 @@ jobs:
     - uses: actions/checkout@v4
     - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
       with:
-        bundle: palette.flatpak
+        bundle: fr.arsenelapostolet.PandocGui.flatpak
         manifest-path: fr.arsenelapostolet.PandocGui.yaml
         cache-key: flatpak-builder-${{ github.sha }}
