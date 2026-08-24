@@ -1,0 +1,29 @@
+id: fr.arsenelapostolet.PandocGui
+runtime: org.freedesktop.Platform
+runtime-version: '25.08'
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.dotnet10
+build-options:
+  prepend-path: "/usr/lib/sdk/dotnet10/bin"
+  append-ld-library-path: "/usr/lib/sdk/dotnet10/lib"
+  prepend-pkg-config-path: "/usr/lib/sdk/dotnet10/lib/pkgconfig"
+
+command: PandocGui
+
+modules:
+  - name: dotnet
+    buildsystem: simple
+    build-commands:
+    - /usr/lib/sdk/dotnet10/bin/install.sh
+
+  - name: PandocGui
+    buildsystem: simple
+    sources:
+      - type: git
+        url: git@github.com:Ombrelin/pandoc-gui.git
+      - ./nuget-sources.json
+    build-commands:
+      - dotnet publish src/PandocGui/PandocGui.csproj -c Release --no-self-contained --source ./nuget-sources
+      - mkdir -p ${FLATPAK_DEST}/bin
+      - cp -r bin/Release/net10.0/publish/* ${FLATPAK_DEST}/bin

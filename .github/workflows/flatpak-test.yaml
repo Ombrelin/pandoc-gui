@@ -1,0 +1,19 @@
+on:
+  push:
+    branches: [flatpak]
+  pull_request:
+name: Flatpak
+jobs:
+  flatpak:
+    name: "Flatpak"
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-50
+      options: --privileged
+    steps:
+    - uses: actions/checkout@v4
+    - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+      with:
+        bundle: palette.flatpak
+        manifest-path: fr.arsenelapostolet.PandocGui.yaml
+        cache-key: flatpak-builder-${{ github.sha }}
