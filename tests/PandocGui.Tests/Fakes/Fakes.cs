@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using PandocGui.CliWrapper;
 using PandocGui.Services;
@@ -9,8 +10,14 @@ public class FakeFileDialogService : IFileDialogService
 {
     public string OpenFileResult { get; set; } = "";
     public string SaveFileResult { get; set; } = "";
+    public IReadOnlyList<FilePickerGroup> LastOpenFileGroups { get; private set; }
 
-    public Task<string> OpenFileAsync() => Task.FromResult(OpenFileResult);
+    public Task<string> OpenFileAsync(IReadOnlyList<FilePickerGroup> groups = null)
+    {
+        LastOpenFileGroups = groups;
+        return Task.FromResult(OpenFileResult);
+    }
+
     public Task<string> SaveFileAsync() => Task.FromResult(SaveFileResult);
 }
 

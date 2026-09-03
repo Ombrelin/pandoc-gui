@@ -6,6 +6,7 @@ using Avalonia.Input;
 using Avalonia.Platform.Storage;
 using AvaloniaProgressRing;
 using FluentAvalonia.UI.Controls;
+using PandocGui.CliWrapper;
 using PandocGui.ViewModels;
 using ReactiveUI;
 using ReactiveUI.Avalonia;
@@ -67,7 +68,7 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
                 .DisposeWith(disposable);
             this.OneWayBind(ViewModel, vm => vm.SupportedInputFormats, v => v.InputFormatComboBox.ItemsSource)
                 .DisposeWith(disposable);
-            this.Bind(ViewModel, vm => vm.SourceFormat, v => v.InputFormatComboBox.SelectedItem)
+            this.Bind(ViewModel, vm => vm.SelectedInputFormat, v => v.InputFormatComboBox.SelectedItem)
                 .DisposeWith(disposable);
             this.BindCommand(ViewModel, vm => vm.SearchSourceFileCommand, v => v.SearchSourceFileButton)
                 .DisposeWith(disposable);
@@ -161,7 +162,7 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         var files = e.DataTransfer.TryGetFiles();
         var path = files?.OfType<IStorageFile>().FirstOrDefault()?.TryGetLocalPath();
 
-        if (!string.IsNullOrWhiteSpace(path))
+        if (!string.IsNullOrWhiteSpace(path) && PandocFormats.IsSupportedInput(path))
         {
             ViewModel.SourcePath = path;
         }

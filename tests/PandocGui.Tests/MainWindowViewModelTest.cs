@@ -29,7 +29,7 @@ public class MainWindowViewModelTest
         // Then
         Assert.Equal("", viewModel.SourcePath);
         Assert.Equal("", viewModel.TargetPath);
-        Assert.Equal(PandocFormats.DefaultInputFormat, viewModel.SourceFormat);
+        Assert.Equal(PandocFormats.DefaultInputFormat, viewModel.SelectedInputFormat.Format);
         Assert.Equal(PandocFormats.OutputFormats[0], viewModel.SelectedOutputFormat);
         Assert.Equal(1, dataDirectory.EnsureCreatedCalls);
     }
@@ -49,7 +49,7 @@ public class MainWindowViewModelTest
         viewModel.SourcePath = Path.Combine("documents", fileName);
 
         // Then
-        Assert.Equal(expectedFormat, viewModel.SourceFormat);
+        Assert.Equal(expectedFormat, viewModel.SelectedInputFormat.Format);
     }
 
     [Fact]
@@ -77,7 +77,7 @@ public class MainWindowViewModelTest
 
         // Then
         Assert.Equal(Path.Combine("documents", "report.pdf"), viewModel.TargetPath);
-        Assert.Equal("markdown", viewModel.SourceFormat);
+        Assert.Equal("markdown", viewModel.SelectedInputFormat.Format);
     }
 
     [Fact]
@@ -191,7 +191,24 @@ public class MainWindowViewModelTest
 
         // Then
         Assert.Equal(Path.Combine("documents", "notes.rst"), viewModel.SourcePath);
-        Assert.Equal("rst", viewModel.SourceFormat);
+        Assert.Equal("rst", viewModel.SelectedInputFormat.Format);
+    }
+
+    [Fact]
+    public async Task SearchSourceFileCommand_GroupsFormatsByCategoryForThePicker()
+    {
+        // Given
+        var viewModel = BuildViewModel();
+
+        // When
+        await viewModel.SearchSourceFileCommand.Execute();
+
+        // Then
+        var groups = fileDialog.LastOpenFileGroups;
+        Assert.NotNull(groups);
+        Assert.NotEmpty(groups);
+        Assert.Contains(groups, group => group.Name == "Markdown" && group.Extensions.Contains(".md"));
+        Assert.All(groups, group => Assert.NotEmpty(group.Extensions));
     }
 
     [Fact]
@@ -234,7 +251,7 @@ public class MainWindowViewModelTest
         // Then
         Assert.Equal("", viewModel.SourcePath);
         Assert.Equal("", viewModel.TargetPath);
-        Assert.Equal(PandocFormats.DefaultInputFormat, viewModel.SourceFormat);
+        Assert.Equal(PandocFormats.DefaultInputFormat, viewModel.SelectedInputFormat.Format);
         Assert.Equal(PandocFormats.OutputFormats[0], viewModel.SelectedOutputFormat);
         Assert.Equal("", viewModel.Result);
         Assert.False(viewModel.IsError);

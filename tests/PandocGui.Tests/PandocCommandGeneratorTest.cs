@@ -65,6 +65,26 @@ public class PandocCommandGeneratorTest
         Assert.Equal(expected, PandocFormats.DetectInputFormat(path));
     }
 
+    [Theory]
+    [InlineData("report.md", true)]
+    [InlineData("paper.docx", true)]
+    [InlineData("page.HTML", true)]
+    [InlineData("photo.jpg", false)]
+    [InlineData("tool.exe", false)]
+    [InlineData("archive.zip", false)]
+    [InlineData("", false)]
+    public void IsSupportedInput_AcceptsOnlyKnownDocumentExtensions(string path, bool expected)
+    {
+        Assert.Equal(expected, PandocFormats.IsSupportedInput(path));
+    }
+
+    [Fact]
+    public void InputFormats_StartWithMostPopular()
+    {
+        Assert.Equal("Markdown", PandocFormats.InputFormats[0].DisplayName);
+        Assert.Equal("PDF", PandocFormats.OutputFormats[0].DisplayName);
+    }
+
     [Fact]
     public void BuildGenerator_WithSourceFormat_UsesItForReader()
     {
